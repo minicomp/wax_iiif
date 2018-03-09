@@ -22,7 +22,8 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rspec"
   spec.add_development_dependency "guard"
   spec.add_development_dependency "guard-rspec"
-  spec.add_development_dependency 'dotenv'
+  spec.add_development_dependency "dotenv"
+  spec.add_development_dependency "simplecov", "~> 0.10"
 
   spec.add_runtime_dependency "mini_magick", ">= 4.8"
 end
