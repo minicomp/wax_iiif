@@ -1,7 +1,6 @@
 require 'dotenv'
 Dotenv.load
 
-require 'rmagick'
 require_relative 'lib/iiif_s3'
 
 # Set up configuration variables
@@ -68,11 +67,11 @@ Dir.foreach(@dir) do |file|
   elsif opts[:document_file_types].include? File.extname(file)
     path = "#{@dir}/#{file}"
     images = IiifS3::Utilities::PdfSplitter.split(path)
-    images.each  do |img| 
+    images.each  do |img|
       add_image(img, true)
       add_to_cleanup_list(img)
     end
-  end    
+  end
 end
 
 iiif.load(@data)

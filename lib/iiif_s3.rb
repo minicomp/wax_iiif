@@ -14,11 +14,10 @@ require "iiif_s3/thumbnail"
 require "iiif_s3/image_tile"
 require "iiif_s3/full_image"
 require "iiif_s3/image_info"
-require "iiif_s3/amazon_s3"
 require "iiif_s3/utilities"
 
-# Module IiifS3 is a tool for generating IIIF resources from a set of files.  
-# It's designed to support the IIIF level 0 profile, and generates entirely static files. 
+# Module IiifS3 is a tool for generating IIIF resources from a set of files.
+# It's designed to support the IIIF level 0 profile, and generates entirely static files.
 #
 # @author David Newbury <david.newbury@gmail.com>
 #
@@ -56,7 +55,7 @@ module IiifS3
   DEFAULT_VIEWING_DIRECTION = "left-to-right"
   # @return [Number] The size in pixels below which the canvas will be doubled.
   MIN_CANVAS_SIZE           = 1200
-  
+
 
     #--------------------------------------------------------------------------
     # HELPERS
@@ -73,13 +72,12 @@ module IiifS3
   # @param [String] direction A viewing direction string
   #
   # @return [boolean] Is the provided string a valid viewing direction?
-  # 
+  #
   def self.is_valid_viewing_direction(direction)
     direction == "left-to-right" ||
     direction == "top-to-bottom" ||
     direction == "bottom-to-top" ||
-    direction == "right-to-left" 
+    direction == "right-to-left"
   end
 
 end
-
