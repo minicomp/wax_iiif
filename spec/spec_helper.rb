@@ -6,7 +6,7 @@ require 'simplecov'
 SimpleCov.start
 
 require "shared_contexts"
-require 'iiif_s3'
+require 'wax_iiif'
 
 ENV["TEST_INTERNET_CONNECTIVITY"] ||= nil
 ENV["SKIP_EXPENSIVE_TESTS"] ||= nil

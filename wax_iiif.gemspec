@@ -1,14 +1,13 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'iiif_s3/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "iiif_s3"
-  spec.version       = IiifS3::VERSION
-  spec.authors       = ["David Newbury"]
-  spec.email         = ["david.newbury@gmail.com"]
-  spec.summary       = "A generator for an IIIF level 0 compatible static server on Amazon S3."
+  spec.name          = "wax_iiif"
+  spec.version       = "0.0.1"
+  spec.authors       = ["Marii Nyrop", "David Newbury"]
+  spec.email         = ["m.nyrop@columbia.edu"]
+  spec.summary       = "Minimal iiif level 0 generator – i.e. David Newbury's iiif_s3 minus s3."
   spec.description   = ""
   spec.homepage      = "https://github.com/cmoa/iiif_s3"
   spec.license       = "MIT"

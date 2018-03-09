@@ -1,14 +1,12 @@
 require 'dotenv'
 Dotenv.load
 
-require_relative 'lib/iiif_s3'
+require_relative 'lib/wax_iiif'
 
 # Set up configuration variables
 opts = {}
 opts[:image_directory_name] = "img"
-opts[:output_dir] = "/Users/david/Documents/opensource/mirador"
 opts[:variants] = { "reference" => 600, "access" => 1200}
-opts[:upload_to_s3] = true
 opts[:image_types] = [".jpg", ".tif", ".jpeg", ".tiff"]
 opts[:document_file_types] = [".pdf"]
 
