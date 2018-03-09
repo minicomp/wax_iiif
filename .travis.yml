@@ -3,5 +3,9 @@ rvm:
   - 2.2
   - 2.3
   - 2.4
+addons:
+  apt:
+    packages:
+      - ghostscript
 script:
   - bundle exec rspec
