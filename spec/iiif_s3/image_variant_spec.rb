@@ -7,7 +7,7 @@ describe IiifS3::ImageVariant do
       "id" => 1,
       "page_number" => 1
     }) }
- 
+
   context "initialization errors" do
     it "raises if the image does not have an ID" do
       data.id =nil
@@ -33,23 +33,20 @@ describe IiifS3::ImageVariant do
         "page_number" => 1
       })
        config = IiifS3::Config.new
-       @img = IiifS3::ImageVariant.new(data, config, 100, 100)
+       @img = IiifS3::ImageVariant.new(data, config, 100)
     end
-    
+
     it "has a uri" do
-      expect(@img.uri).to eq("#{@img.generate_image_id(1,1)}/full/83,/0/default.jpg")
-    end     
+      expect(@img.uri).to eq("#{@img.generate_image_id(1,1)}/full/100,/0/default.jpg")
+    end
     it "has an id" do
       expect(@img.id).to eq("#{@img.generate_image_id(1,1)}")
-    end 
+    end
     it "has a width" do
-      expect(@img.width).to eq(83)
-    end    
-    it "has a height" do
-      expect(@img.height).to eq(100)
-    end 
+      expect(@img.width).to eq(100)
+    end
     it "has a mime type" do
-      expect(@img.mime_type).to eq("image/jpeg")   
+      expect(@img.mime_type).to eq("image/jpeg")
     end
   end
 

@@ -1,7 +1,7 @@
 module IiifS3
-  
+
   # Config provides a data structure for holding the configuration settings
-  # for the IiifS3 class.  
+  # for the IiifS3 class.
   #
   # @author David Newbury <david.newbury@gmail.com>
   #
@@ -9,7 +9,7 @@ module IiifS3
 
     # @return [String] The default URL to append to all IDs.
     DEFAULT_URL = "http://0.0.0.0"
-    # @return [String] The name of the subdirectory where generated images live 
+    # @return [String] The name of the subdirectory where generated images live
     DEFAULT_IMAGE_DIRECTORY_NAME = "images"
     # @return [String] The default path for writing generated image files
     DEFAULT_OUTPUT_DIRECTORY = "./build"
@@ -18,7 +18,7 @@ module IiifS3
     # @return [Array<Number>] The default tile scaling factors
     DEFAULT_TILE_SCALE_FACTORS = [1,2,4,8]
     # @return [Number] The default thumbnail size in pixels
-    DEFAULT_THUMBNAIL_SIZE = 250    
+    DEFAULT_THUMBNAIL_SIZE = 250
 
     #
     # @!attribute [r] base_url
@@ -87,7 +87,7 @@ module IiifS3
 
     # Initialize a new configuration option.
     #
-    # @param [Hash] opts 
+    # @param [Hash] opts
     # @option opts [Boolean] :upload_to_s3 if true, images and metadata will be
     #   uploaded to Amazon S3.  Defaults to False.
     # @option opts [Number] :tile_width The width in pixels for generated tiles.
@@ -99,11 +99,11 @@ module IiifS3
     # @option opts [String] :output_dir The name of the directory for generated files.
     #   image data. Defaults to {DEFAULT_OUTPUT_DIRECTORY}
     # @option opts [String] :base_url The base URL for the generated URIs.  Defaults to
-    #   {DEFAULT_URL} if not auto-uploading to S3 and to the s3 bucket if upload_to_s3 is enabled. 
+    #   {DEFAULT_URL} if not auto-uploading to S3 and to the s3 bucket if upload_to_s3 is enabled.
     # @option opts [Number] :thumbnail_size the size in pixels
     #   for the largest side of the thumbnail images.  Defaults to {DEFAULT_THUMBNAIL_SIZE}.
-    # @option opts [Bool] :use_extensions (true) should files have exensions appended?  
-    # @option opts [Bool] :verbose (false) Should debug information be printed to the console?  
+    # @option opts [Bool] :use_extensions (true) should files have exensions appended?
+    # @option opts [Bool] :verbose (false) Should debug information be printed to the console?
     # @option opts [String] :prefix ("") a prefix (read: subdirectory) for the generated URIs.
     # @option opts [Hash{String: String}] :variants
     def initialize(opts = {})
@@ -120,7 +120,7 @@ module IiifS3
       @verbose        = opts.fetch(:verbose, false)       ## false
       @prefix         = opts[:prefix]                     || ""
       if @prefix.length > 0 && @prefix[0] != "/"
-        @prefix = "/#{@prefix}" 
+        @prefix = "/#{@prefix}"
       end
     end
 
@@ -130,7 +130,7 @@ module IiifS3
     # @param [IiifS3::Config] other_config The configuration file to compare
     #
     # @return [Bool] True if they are the same, false otherwise
-    # 
+    #
     def ==(other_config)
       valid = true
       self.instance_variables.each do |v|

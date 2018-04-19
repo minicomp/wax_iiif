@@ -9,7 +9,7 @@ module IiifS3
 
   #
   # Class ImageVariant represents a single image file within a manifest.
-  # 
+  #
   #
   # @author David Newbury <david.newbury@gmail.com>
   #
@@ -18,10 +18,10 @@ module IiifS3
     include MiniMagick
 
     #
-    # Initializing an ImageVariant will create the actual image file 
-    # on the file system.  
-    # 
-    # To initialize an image, you will need the 
+    # Initializing an ImageVariant will create the actual image file
+    # on the file system.
+    #
+    # To initialize an image, you will need the
     # data hash to have an "id", a "image_path", and a "page_number".
     #
     # @param [Hash] data A Image Data object.
@@ -29,15 +29,15 @@ module IiifS3
     # @param [Number] width the desired width of this object in pixels
     # @param [Number] height the desired height of this object in pixels
     # @raise IiifS3::Error::InvalidImageData
-    #  
-    def initialize(data, config, width = nil, height = nil)
+    #
+    def initialize(data, config, size = nil)
 
       @config = config
       # Validate input data
       if data.id.nil? || data.id.to_s.empty?
-        raise IiifS3::Error::InvalidImageData, "Each image needs an ID" 
+        raise IiifS3::Error::InvalidImageData, "Each image needs an ID"
       elsif data.image_path.nil? || data.image_path.to_s.empty?
-        raise IiifS3::Error::InvalidImageData, "Each image needs an path." 
+        raise IiifS3::Error::InvalidImageData, "Each image needs an path."
       end
 
       # open image
@@ -47,7 +47,8 @@ module IiifS3
         raise IiifS3::Error::InvalidImageData, "Cannot read this image file: #{data.image_path}. #{e}"
       end
 
-      resize(width, height)
+      width = size.nil? ? width : size
+      resize(width)
       @image.format "jpg"
 
       @id =   generate_image_id(data.id,data.page_number)
@@ -68,7 +69,7 @@ module IiifS3
 
     #
     # @!attribute [r] id
-    #   @return [String] The URI for the variant.  
+    #   @return [String] The URI for the variant.
     attr_reader :id
 
 
@@ -89,10 +90,10 @@ module IiifS3
     end
 
     #
-    # Get the MIME Content-Type of the image. 
+    # Get the MIME Content-Type of the image.
     #
     # @return [String] the MIME Content-Type (typically "image/jpeg")
-    # 
+    #
     def mime_type
       @image.mime_type
     end
@@ -103,7 +104,7 @@ module IiifS3
     # @param [String, Number] page_number The page number for this particular image.
     #
     # @return [<type>] <description>
-    # 
+    #
     def generate_image_id(id, page_number)
       "#{@config.base_url}#{@config.prefix}/#{@config.image_directory_name}/#{id}-#{page_number}"
     end
@@ -114,8 +115,8 @@ module IiifS3
       "full"
     end
 
-    def resize(width, height)
-      @image.resize "#{width}x#{height}"
+    def resize(width)
+      @image.resize "#{width}"
     end
 
     def filestring
