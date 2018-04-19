@@ -9,12 +9,12 @@ module IiifS3
   class FullImage < ImageVariant
 
     protected
-    
+
     def filestring
       "/full/full/0"
     end
 
-    def resize(width, height); end
+    def resize(width); end
 
   end
 end
