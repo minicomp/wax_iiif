@@ -1,5 +1,4 @@
-
-require "mini_magick"
+require 'mini_magick'
 require 'fileutils'
 
 module WaxIiif
@@ -11,7 +10,7 @@ module WaxIiif
     protected
 
     def filestring
-      "/full/full/0"
+      '/full/full/0'
     end
 
     def resize(width); end

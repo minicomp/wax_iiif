@@ -5,8 +5,8 @@ Dotenv.load
 require 'simplecov'
 SimpleCov.start
 
-require "shared_contexts"
+require 'shared_contexts'
 require 'wax_iiif'
 
-ENV["TEST_INTERNET_CONNECTIVITY"] ||= nil
-ENV["SKIP_EXPENSIVE_TESTS"] ||= nil
+ENV['TEST_INTERNET_CONNECTIVITY'] ||= nil
+ENV['SKIP_EXPENSIVE_TESTS'] ||= nil

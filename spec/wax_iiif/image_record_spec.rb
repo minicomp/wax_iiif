@@ -1,5 +1,5 @@
  require 'spec_helper'
- require "base_properties_spec"
+ require 'base_properties_spec'
 
 
 describe WaxIiif::ImageRecord do
@@ -8,88 +8,88 @@ describe WaxIiif::ImageRecord do
     }}
     let(:image_record) {WaxIiif::ImageRecord.new(opts)}
 
-  it "initializes without an error" do
-    expect{WaxIiif::ImageRecord.new}.not_to raise_error    
+  it 'initializes without an error' do
+    expect{WaxIiif::ImageRecord.new}.not_to raise_error
   end
-  it "initializes without an error when provided a hash" do
+  it 'initializes without an error when provided a hash' do
     opts = {id: 1}
-    expect{WaxIiif::ImageRecord.new(opts)}.not_to raise_error    
+    expect{WaxIiif::ImageRecord.new(opts)}.not_to raise_error
   end
 
-  context "#viewing_direction" do
-    it "has a sensible default" do
+  context '#viewing_direction' do
+    it 'has a sensible default' do
       expect(image_record.viewing_direction).to eq WaxIiif::DEFAULT_VIEWING_DIRECTION
     end
 
-    it "rejects invalid viewing directions on init" do
-      opts = {viewing_direction: "wonky"}
+    it 'rejects invalid viewing directions on init' do
+      opts = {viewing_direction: 'wonky'}
       expect{WaxIiif::ImageRecord.new(opts)}.to raise_error(WaxIiif::Error::InvalidViewingDirection)
     end
 
-    it "rejects setting invalid viewing directions" do
-      expect{image_record.viewing_direction = "wonky"}.to raise_error(WaxIiif::Error::InvalidViewingDirection)
+    it 'rejects setting invalid viewing directions' do
+      expect{image_record.viewing_direction = 'wonky'}.to raise_error(WaxIiif::Error::InvalidViewingDirection)
     end
   end
 
-  it "initializes with provided hash values" do
+  it 'initializes with provided hash values' do
     expect(image_record.id).to eq opts[:id]
   end
-  it "ignores unknown data" do
-    opts["junk_data"] = "bozo"
-    expect{WaxIiif::ImageRecord.new(opts)}.not_to raise_error    
+  it 'ignores unknown data' do
+    opts['junk_data'] = 'bozo'
+    expect{WaxIiif::ImageRecord.new(opts)}.not_to raise_error
   end
-  context "#is_primary" do
-    it "defaults to false" do
+  context '#is_primary' do
+    it 'defaults to false' do
       image_record.page_number = 2
       expect(image_record.is_primary).to equal(false)
     end
-    it "defaults to true for first pages" do
+    it 'defaults to true for first pages' do
       image_record.page_number = 1
       expect(image_record.is_primary).to equal(true)
     end
-    it "has an alias" do
+    it 'has an alias' do
       image_record.page_number = 1
       expect(image_record.is_primary?).to equal(true)
     end
-    it "forces is_primary to boolean" do
-      image_record.is_primary = "banana"
+    it 'forces is_primary to boolean' do
+      image_record.is_primary = 'banana'
       expect(image_record.is_primary).to equal(true)
     end
-    it "uses page_number for intellegent defaults" do
+    it 'uses page_number for intellegent defaults' do
       image_record.page_number = 1
       expect(image_record.is_primary).to equal(true)
     end
-    it "allows page_number default to be overridded" do
+    it 'allows page_number default to be overridded' do
       image_record.page_number = 1
       image_record.is_primary = false
       expect(image_record.is_primary).to equal(false)
     end
   end
-  context "#image_path" do
-    it "raises on a blan path" do
+  context '#image_path' do
+    it 'raises on a blan path' do
       expect{image_record.path = nil}.to raise_error(WaxIiif::Error::InvalidImageData)
     end
-    it "raises an error for a bad file name" do
-      expect{image_record.path = "imaginary_file.jpg"}.to raise_error(WaxIiif::Error::InvalidImageData)
+    it 'raises an error for a bad file name' do
+      expect{image_record.path = 'imaginary_file.jpg'}.to raise_error(WaxIiif::Error::InvalidImageData)
     end
   end
-  context "#section" do
-    it "uses the default for the name" do
+  context '#section' do
+    it 'uses the default for the name' do
       expect(image_record.section).to eq DEFAULT_CANVAS_LABEL
     end
-    it "uses the default for the label" do
+    it 'uses the default for the label' do
       expect(image_record.section_label).to eq DEFAULT_CANVAS_LABEL
     end
   end
-  context "#is_document" do
-    it "defaults to false" do
+  context '#is_document' do
+    it 'defaults to false' do
       expect(image_record.is_document).to equal(false)
     end
-    it "has_an_alias" do
+    it 'has_an_alias' do
       expect(image_record.is_document?).to equal(false)
     end
-    it "forces is_document to boolean" do
-      image_record.is_document = "banana"
+    it 'forces is_document to boolean' do
+      image_record.is_document = 'banana'
       expect(image_record.is_document).to equal(true)
     end
   end

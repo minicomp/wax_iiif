@@ -1,5 +1,5 @@
-require_relative "utilities/pdf_splitter"
-require_relative "utilities/helpers"
+require_relative 'utilities/pdf_splitter'
+require_relative 'utilities/helpers'
 
 module WaxIiif
   # Module Utilities provides a set of basic utilities and helper functions for

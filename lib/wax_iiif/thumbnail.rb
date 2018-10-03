@@ -1,4 +1,4 @@
-require "mini_magick"
+require 'mini_magick'
 require 'fileutils'
 
 module WaxIiif

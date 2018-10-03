@@ -14,7 +14,7 @@ module WaxIiif
   class Manifest
 
     # @return [String] The IIIF default type for a manifest.
-    TYPE = "sc:Manifest"
+    TYPE = 'sc:Manifest'
 
     include BaseProperties
 
@@ -31,7 +31,7 @@ module WaxIiif
     def initialize(image_records,config, opts = {})
       @config = config
       image_records.each do |record|
-        raise WaxIiif::Error::InvalidImageData, "The data provided to the manifest were not ImageRecords" unless record.is_a? ImageRecord
+        raise WaxIiif::Error::InvalidImageData, 'The data provided to the manifest were not ImageRecords' unless record.is_a? ImageRecord
       end
 
       @primary = image_records.find{|obj| obj.is_primary}
@@ -39,7 +39,7 @@ module WaxIiif
       raise WaxIiif::Error::MultiplePrimaryImages, "Multiple primary images were found in the image data." unless image_records.count{|obj| obj.is_primary} == 1
 
       self.id =          "#{@primary.id}/manifest"
-      self.label =        @primary.label       || opts[:label]                 || ""
+      self.label =        @primary.label       || opts[:label]                 || ''
       self.description =  @primary.description || opts[:description]
       self.attribution =  @primary.attribution || opts.fetch(:attribution, nil)
       self.logo =         @primary.logo        || opts.fetch(:logo, nil)
@@ -55,17 +55,17 @@ module WaxIiif
     def to_json
       obj = base_properties
 
-      obj["thumbnail"]   = @primary.variants["thumbnail"].uri
-      obj["viewingDirection"] = @primary.viewing_direction
-      obj["viewingHint"] = @primary.is_document ? "paged" : "individuals"
-      obj["sequences"] = [@sequences]
+      obj['thumbnail']   = @primary.variants['thumbnail'].uri
+      obj['viewingDirection'] = @primary.viewing_direction
+      obj['viewingHint'] = @primary.is_document ? 'paged' : 'individuals'
+      obj['sequences'] = [@sequences]
 
       return JSON.pretty_generate obj
     end
 
     #
     # Save the manifest and all sub-resources to disk, using the
-    # paths contained withing the WaxIiif::Config object passed at 
+    # paths contained withing the WaxIiif::Config object passed at
     # initialization.
     #
     # Will create the manifest, sequences, canvases, and annotation subobjects.
@@ -75,11 +75,11 @@ module WaxIiif
     def save_all_files_to_disk
       data = JSON.parse(self.to_json)
       save_to_disk(data)
-      data["sequences"].each do |sequence|
+      data['sequences'].each do |sequence|
         save_to_disk(sequence)
-        sequence["canvases"].each do |canvas|
+        sequence['canvases'].each do |canvas|
           save_to_disk(canvas)
-          canvas["images"].each do |annotation|
+          canvas['images'].each do |annotation|
             save_to_disk(annotation)
           end
         end
@@ -96,9 +96,9 @@ module WaxIiif
       seq_id = generate_id "#{@primary.id}/sequence/#{name}"
 
       opts.merge({
-        "@id" => seq_id,
-        "@type" => SEQUENCE_TYPE,
-        "canvases" => image_records.collect {|image_record| build_canvas(image_record)}
+        '@id' => seq_id,
+        '@type' => SEQUENCE_TYPE,
+        'canvases' => image_records.collect { |image_record| build_canvas(image_record) }
       })
     end
 
@@ -108,19 +108,19 @@ module WaxIiif
       canvas_id = generate_id "#{data.id}/canvas/#{data.section}"
 
       obj = {
-        "@type" => CANVAS_TYPE,
-        "@id"   => canvas_id,
-        "label" => data.section_label,
-        "width" => data.variants["full"].width.floor,
-        "height" => data.variants["full"].height.floor,
-        "thumbnail" => data.variants["thumbnail"].uri
+        '@type' => CANVAS_TYPE,
+        '@id'   => canvas_id,
+        'label' => data.section_label,
+        'width' => data.variants['full'].width.floor,
+        'height' => data.variants['full'].height.floor,
+        'thumbnail' => data.variants['thumbnail'].uri
       }
-      obj["images"] = [build_image(data, obj)]
+      obj['images'] = [build_image(data, obj)]
 
       # handle objects that are less than 1200px on a side by doubling canvas size
-      if obj["width"] < MIN_CANVAS_SIZE || obj["height"] < MIN_CANVAS_SIZE
-        obj["width"]  *= 2
-        obj["height"] *= 2
+      if obj['width'] < MIN_CANVAS_SIZE || obj['height'] < MIN_CANVAS_SIZE
+        obj['width']  *= 2
+        obj['height'] *= 2
       end
       return obj
     end
@@ -129,22 +129,22 @@ module WaxIiif
     def build_image(data, canvas)
       annotation_id =  generate_id "#{data.id}/annotation/#{data.section}"
       {
-        "@type" => ANNOTATION_TYPE,
-        "@id"   => annotation_id,
-        "motivation" => MOTIVATION,
-        "resource" => {
-          "@id" => data.variants["full"].uri,
-          "@type" => IMAGE_TYPE,
-          "format" => data.variants["full"].mime_type || "image/jpeg",
-          "service" => {
-            "@context" => WaxIiif::IMAGE_CONTEXT,
-            "@id" => data.variants["full"].id,
-            "profile" => WaxIiif::LEVEL_0,
+        '@type' => ANNOTATION_TYPE,
+        '@id'   => annotation_id,
+        'motivation' => MOTIVATION,
+        'resource' => {
+          '@id' => data.variants['full'].uri,
+          '@type' => IMAGE_TYPE,
+          'format' => data.variants['full'].mime_type || 'image/jpeg',
+          'service' => {
+            '@context' => WaxIiif::IMAGE_CONTEXT,
+            '@id' => data.variants['full'].id,
+            'profile' => WaxIiif::LEVEL_0,
           },
-          "width" => data.variants["full"].width,
-          "height" => data.variants["full"].height,
+          'width' => data.variants['full'].width,
+          'height' => data.variants['full'].height,
         },
-        "on" => canvas["@id"]
+        'on' => canvas['@id']
       }
     end
   end

@@ -8,11 +8,11 @@ module WaxIiif
   class Config
 
     # @return [String] The default URL to append to all IDs.
-    DEFAULT_URL = "http://0.0.0.0"
+    DEFAULT_URL = 'http://0.0.0.0'
     # @return [String] The name of the subdirectory where generated images live
-    DEFAULT_IMAGE_DIRECTORY_NAME = "images"
+    DEFAULT_IMAGE_DIRECTORY_NAME = 'images'
     # @return [String] The default path for writing generated image files
-    DEFAULT_OUTPUT_DIRECTORY = "./build"
+    DEFAULT_OUTPUT_DIRECTORY = './build'
     # @return [Number] The default tile width/height in pixels
     DEFAULT_TILE_WIDTH = 512
     # @return [Array<Number>] The default tile scaling factors
@@ -41,7 +41,7 @@ module WaxIiif
     #   @return [String] A prefix to be appended between the base URI and the id.
     #     Can be blank,and it will automatically prepend a slash if one is not
     #     provided.
-    #   Defaults to ""
+    #   Defaults to ''
     attr_reader :prefix
     #
     # @!attribute [r] image_directory_name
@@ -104,7 +104,7 @@ module WaxIiif
     #   for the largest side of the thumbnail images.  Defaults to {DEFAULT_THUMBNAIL_SIZE}.
     # @option opts [Bool] :use_extensions (true) should files have exensions appended?
     # @option opts [Bool] :verbose (false) Should debug information be printed to the console?
-    # @option opts [String] :prefix ("") a prefix (read: subdirectory) for the generated URIs.
+    # @option opts [String] :prefix ('') a prefix (read: subdirectory) for the generated URIs.
     # @option opts [Hash{String: String}] :variants
     def initialize(opts = {})
       @upload_to_s3   = opts[:upload_to_s3] || false
@@ -118,8 +118,8 @@ module WaxIiif
       @variants       = opts[:variants]                   || {}
       @thumbnail_size = opts[:thumbnail_size]             || DEFAULT_THUMBNAIL_SIZE
       @verbose        = opts.fetch(:verbose, false)       ## false
-      @prefix         = opts[:prefix]                     || ""
-      if @prefix.length > 0 && @prefix[0] != "/"
+      @prefix         = opts[:prefix]                     || ''
+      if @prefix.length > 0 && @prefix[0] != '/'
         @prefix = "/#{@prefix}"
       end
     end

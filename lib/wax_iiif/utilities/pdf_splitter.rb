@@ -1,9 +1,7 @@
-require "mini_magick"
+require 'mini_magick'
 
 module WaxIiif
   module Utilities
-
-    #
     # Class PdfSplitter is a utility function designed to convert a PDF into a stack of images.
     #
     # @author David Newbury <david.newbury@gmail.com>
@@ -18,7 +16,7 @@ module WaxIiif
       #
       def self.split(path, options={})
 
-        output_dir = options.fetch(:output_dir, ".")
+        output_dir = options.fetch(:output_dir, '.')
         verbose = options.fetch(:verbose, false)
         puts "processing #{path}" if verbose
         name = File.basename(path, File.extname(path))
@@ -31,12 +29,12 @@ module WaxIiif
           page_file_name = "#{output_dir}/#{name}_#{index+1}.jpg"
 
           MiniMagick::Tool::Convert.new do |convert|
-            convert.density("300")
-            convert.units("PixelsPerInch")
+            convert.density('300')
+            convert.units('PixelsPerInch')
             convert << page.path
-            convert.quality("80")
-            convert.colorspace("sRGB")
-            convert.interlace("none")
+            convert.quality('80')
+            convert.colorspace('sRGB')
+            convert.interlace('none')
             convert.flatten
             convert << page_file_name
           end

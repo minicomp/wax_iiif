@@ -1,7 +1,7 @@
 
-require "mini_magick"
+require 'mini_magick'
 require 'fileutils'
-require_relative "utilities"
+require_relative 'utilities'
 
 module WaxIiif
 
@@ -49,7 +49,7 @@ module WaxIiif
 
       width = size.nil? ? width : size
       resize(width)
-      @image.format "jpg"
+      @image.format 'jpg'
 
       @id =   generate_image_id(data.id,data.page_number)
       @uri =  "#{id}#{filestring}/default.jpg"
@@ -92,7 +92,7 @@ module WaxIiif
     #
     # Get the MIME Content-Type of the image.
     #
-    # @return [String] the MIME Content-Type (typically "image/jpeg")
+    # @return [String] the MIME Content-Type (typically 'image/jpeg')
     #
     def mime_type
       @image.mime_type
@@ -112,7 +112,7 @@ module WaxIiif
     protected
 
     def region
-      "full"
+      'full'
     end
 
     def resize(width)

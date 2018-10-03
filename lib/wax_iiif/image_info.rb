@@ -14,12 +14,12 @@ module WaxIiif
 
       def initialize(uri, variants, tile_width= nil, tile_scale_factors = nil)
 
-        raise WaxIiif::Error::InvalidImageData, "No full variant provided:  variants: #{variants}" unless variants["full"]
-        raise WaxIiif::Error::InvalidImageData, "No thumbnail variant provided:  variants: #{variants}" unless variants["thumbnail"]
-        raise WaxIiif::Error::InvalidImageData, "No URI was provided for this image!" if uri.nil?
+        raise WaxIiif::Error::InvalidImageData, 'No full variant provided:  variants: #{variants}' unless variants['full']
+        raise WaxIiif::Error::InvalidImageData, "No thumbnail variant provided:  variants: #{variants}" unless variants['thumbnail']
+        raise WaxIiif::Error::InvalidImageData, 'No URI was provided for this image!' if uri.nil?
 
         @id = uri
-        full = variants["full"]
+        full = variants['full']
         @variants = variants
         @width = full.width
         @height = full.height
@@ -31,7 +31,7 @@ module WaxIiif
       #
       def sizes
          @variants.collect do |name,obj|
-          {"width" => obj.width, "height" => obj.height}
+          {'width' => obj.width, 'height' => obj.height}
         end
       end
 
@@ -44,8 +44,8 @@ module WaxIiif
         return nil if @tile_scale_factors.nil? || @tile_scale_factors.empty?
 
         return [{
-          "width" => @tile_width,
-          "scaleFactors" => @tile_scale_factors
+          'width' => @tile_width,
+          'scaleFactors' => @tile_scale_factors
         }]
       end
 
@@ -57,17 +57,17 @@ module WaxIiif
       #
       def to_json
         obj = {
-          "@context" => context,
-          "@id" => URI.escape(id),
-          "protocol" => protocol,
-          "width" => width,
-          "height" => height,
-          "sizes" => sizes,
-          "profile" => profile,
+          '@context' => context,
+          '@id' => URI.escape(id),
+          'protocol' => protocol,
+          'width' => width,
+          'height' => height,
+          'sizes' => sizes,
+          'profile' => profile,
         }
-        obj["tiles"] = tiles unless tiles.nil?
-        obj["profile"]  = profile
-        obj["service"] = service unless service.nil?
+        obj['tiles'] = tiles unless tiles.nil?
+        obj['profile']  = profile
+        obj['service'] = service unless service.nil?
         JSON.pretty_generate obj
       end
 
@@ -84,7 +84,7 @@ module WaxIiif
       # @return [String] The IIIF profile this image supports
       def profile
         [WaxIiif::LEVEL_0,{
-          supports: ["cors","sizeByWhListed", "baseUriRedirect"]
+          supports: ['cors','sizeByWhListed', 'baseUriRedirect']
         }]
       end
 

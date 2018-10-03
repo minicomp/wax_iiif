@@ -37,7 +37,7 @@ end
 RSpec.shared_context "fake data" do
   include_context("fake variants")
   before(:example) do
-    
+
     @fake_collection = '{
   "@context": "http://iiif.io/api/presentation/2/context.json",
   "@id": "http://0.0.0.0/collection/name.json",

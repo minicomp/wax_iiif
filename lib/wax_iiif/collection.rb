@@ -1,20 +1,16 @@
 module WaxIiif
-
-  #
   # Class Collection is an abstraction over the IIIF Collection, which is an aggregation
   # of IIIF manifests.
   #
   # @author David Newbury <david.newbury@gmail.com>
   #
   class Collection
-
     # @return [String] The IIIF Type for collections
-    TYPE = "sc:Collection"
-
+    TYPE = 'sc:Collection'.freeze
     include BaseProperties
     attr_reader :collections, :manifests
 
-    def initialize(label, config, name="top")
+    def initialize(label, config, name='top')
       raise WaxIiif::Error::MissingCollectionName if label.nil? || label.empty?
       @config = config
       @manifests = []
@@ -40,8 +36,8 @@ module WaxIiif
     #
     def to_json
       obj = base_properties
-      obj["collections"] = collect_object(collections) unless collections.empty?
-      obj["manifests"] = collect_object(manifests) unless manifests.empty?
+      obj['collections'] = collect_object(collections) unless collections.empty?
+      obj['manifests'] = collect_object(manifests) unless manifests.empty?
       JSON.pretty_generate obj
     end
 
@@ -50,9 +46,9 @@ module WaxIiif
     def collect_object(things)
       things.collect do |thing|
         {
-          "@id" => thing.id,
-          "@type" => thing.type,
-          "label" => thing.label
+          '@id' => thing.id,
+          '@type' => thing.type,
+          'label' => thing.label
         }
       end
     end

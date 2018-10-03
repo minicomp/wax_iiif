@@ -25,7 +25,7 @@ module WaxIiif
       # @return [String] The generated URI
       def generate_id(path)
         val =  "#{@config.base_url}#{@config.prefix}/#{path}"
-        val += ".json" if @config.use_extensions
+        val += '.json' if @config.use_extensions
         URI.escape(val)
       end
 
@@ -54,36 +54,36 @@ module WaxIiif
 
       def save_to_disk(data)
         path = get_data_path(data)
-        data["@context"] ||= WaxIiif::PRESENTATION_CONTEXT
+        data['@context'] ||= WaxIiif::PRESENTATION_CONTEXT
         puts "writing #{path}" if @config.verbose?
         FileUtils::mkdir_p File.dirname(path)
-        File.open(path, "w") do |file|
+        File.open(path, 'w') do |file|
            file.puts JSON.pretty_generate(data)
         end
         add_file_to_s3(path) if @config.upload_to_s3
       end
 
       def get_s3_key(filename)
-        key = filename.gsub(@config.output_dir,"")
-        key = key[1..-1] if key[0] == "/"
+        key = filename.gsub(@config.output_dir,'')
+        key = key[1..-1] if key[0] == '/'
       end
 
       def add_file_to_s3(filename)
         key = get_s3_key(filename)
-        if File.extname(filename) == ".json" || File.extname(filename)  == ""
+        if File.extname(filename) == '.json' || File.extname(filename)  == ''
           @config.s3.add_json(key,filename)
-        elsif  File.extname(filename) == ".jpg"
+        elsif  File.extname(filename) == '.jpg'
           @config.s3.add_image(key,filename)
         else
-          raise "Cannot identify file type!"
+          raise 'Cannot identify file type!'
         end
       end
 
       def add_default_redirect(filename)
-        key = filename.gsub(@config.output_dir,"")
-        key = key[1..-1] if key[0] == "/"
+        key = filename.gsub(@config.output_dir,'')
+        key = key[1..-1] if key[0] == '/'
 
-        name_key = key.split(".")[0..-2].join(".")
+        name_key = key.split('.')[0..-2].join('.')
 
         unless key == name_key
           key = "#{@config.base_url}/#{key}"
