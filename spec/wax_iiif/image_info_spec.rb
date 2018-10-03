@@ -1,17 +1,17 @@
 require 'spec_helper'
 require 'ostruct'
 
-include IiifS3
+include WaxIiif
 
-describe IiifS3::ImageInfo do
+describe WaxIiif::ImageInfo do
 
   let(:uri) {"http://www.example.com/test/1"}
   include_context("fake variants")
 
   context "intialization" do
 
-  
-    it "initializes without errors" do  
+
+    it "initializes without errors" do
       expect{ImageInfo.new(uri,@fake_variants)}.not_to raise_error
     end
     it "raises an error without a 'full' variant" do
@@ -26,9 +26,9 @@ describe IiifS3::ImageInfo do
 
 
   context "valid data" do
-    before(:example) do 
+    before(:example) do
       @info = ImageInfo.new(uri,@fake_variants)
-    end  
+    end
 
     it "generates correct sizes" do
       expect(@info.sizes).to eq([{"width" => 1000, "height" => 1200},{"width" => 100, "height" => 120}])

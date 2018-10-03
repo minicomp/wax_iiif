@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'ostruct'
 require 'fileutils'
 
-describe IiifS3::Builder do
+describe WaxIiif::Builder do
   # before(:each) do
   #   fake_aws_bucket = OpenStruct.new({
   #     "exists?" => "true"
@@ -13,7 +13,7 @@ describe IiifS3::Builder do
   #   end
   # end
 
-  let (:iiif) { IiifS3::Builder.new() }
+  let (:iiif) { WaxIiif::Builder.new() }
   let (:test_object_0) {ImageRecord.new({"id" => 1, "page_number" => 1})}
   let (:test_object_1) {ImageRecord.new({"id" => 2, "page_number" => 1})}
   let (:test_object_2) {ImageRecord.new({"id" => 2, "page_number" => 2})}
@@ -24,11 +24,11 @@ describe IiifS3::Builder do
       expect(iiif.manifests).to eq(Array.new)
     end
     it "uses the default config" do
-      expect(iiif.config).to eq(IiifS3::Config.new)
+      expect(iiif.config).to eq(WaxIiif::Config.new)
     end
     it "will accept a configuration hash" do
       opts = {tile_width: 99}
-      iiif2 = IiifS3::Builder.new(opts)
+      iiif2 = WaxIiif::Builder.new(opts)
       expect(iiif2.config.tile_width).to eq(99)
     end
   end
@@ -37,15 +37,15 @@ describe IiifS3::Builder do
     it "will accept an array of objects" do
       iiif.load(data)
       expect(iiif.data).to eq(data)
-    end 
-    it "will accept a single object" do 
+    end
+    it "will accept a single object" do
       iiif.load(test_object_1)
       expect(iiif.data).to eq([test_object_1])
     end
 
     it "will error if the data is bad" do
-      expect{iiif.load({random: "hash"})}.to raise_error(IiifS3::Error::InvalidImageData)
-      expect{iiif.load([{random: "hash"}])}.to raise_error(IiifS3::Error::InvalidImageData)
+      expect{iiif.load({random: "hash"})}.to raise_error(WaxIiif::Error::InvalidImageData)
+      expect{iiif.load([{random: "hash"}])}.to raise_error(WaxIiif::Error::InvalidImageData)
     end
   end
 
@@ -54,7 +54,7 @@ describe IiifS3::Builder do
     include_context("fake data")
 
     before(:example) do
-      @iiif = IiifS3::Builder.new({base_url: 'http://0.0.0.0', verbose: true, thumbnail_size: 120})
+      @iiif = WaxIiif::Builder.new({base_url: 'http://0.0.0.0', verbose: true, thumbnail_size: 120})
       @iiif.load(@fake_data)
       allow(@iiif).to receive(:generate_tiles) {nil}
       allow(@iiif).to receive(:generate_variants) {@fake_variants}
@@ -67,7 +67,7 @@ describe IiifS3::Builder do
     it "does not fail with real data" do
       expect {@iiif.process_data}.not_to raise_error
     end
-  
+
     it " passes the Temporary Manifest Check" do
       @iiif.process_data
       expect(@iiif.manifests.count).to eq 1
@@ -82,7 +82,7 @@ describe IiifS3::Builder do
 
     before(:example) do
       @dir = Dir.mktmpdir
-      @iiif = IiifS3::Builder.new({output_dir: @dir, base_url: 'http://0.0.0.0', verbose: true, thumbnail_size: 120})
+      @iiif = WaxIiif::Builder.new({output_dir: @dir, base_url: 'http://0.0.0.0', verbose: true, thumbnail_size: 120})
       @iiif.load(@fake_data)
       @info_json = "#{@dir}/images/1-1/info.json"
       allow(@iiif).to receive(:generate_tiles) {nil}
@@ -124,13 +124,13 @@ describe IiifS3::Builder do
       expect{iiif.load_csv('./spec/data/test.csv')}.not_to raise_error()
     end
     it "fails on blank CSV files" do
-      expect{iiif.load_csv('./spec/data/blank.csv')}.to raise_error(IiifS3::Error::BlankCSV)
+      expect{iiif.load_csv('./spec/data/blank.csv')}.to raise_error(WaxIiif::Error::BlankCSV)
     end
     it "fails on invalid CSV files" do
-      expect{iiif.load_csv('./spec/data/invalid.csv')}.to raise_error(IiifS3::Error::InvalidCSV)
+      expect{iiif.load_csv('./spec/data/invalid.csv')}.to raise_error(WaxIiif::Error::InvalidCSV)
     end
     it "fails on missing CSV files" do
-      expect{iiif.load_csv('./spec/data/i_dont_exist.csv')}.to raise_error(IiifS3::Error::InvalidCSV)
+      expect{iiif.load_csv('./spec/data/i_dont_exist.csv')}.to raise_error(WaxIiif::Error::InvalidCSV)
     end
   end
 
@@ -142,11 +142,11 @@ describe IiifS3::Builder do
     end
     it "removes headers" do
       iiif.load_csv('./spec/data/test.csv')
-      expect(iiif.data[0]['image_path']).to eq('spec/data/test.jpg')        
+      expect(iiif.data[0]['image_path']).to eq('spec/data/test.jpg')
     end
     it "doesn't remove headers if not present" do
       iiif.load_csv('./spec/data/no_header.csv')
-      expect(iiif.data[0]['image_path']).to eq('spec/data/test.jpg')        
+      expect(iiif.data[0]['image_path']).to eq('spec/data/test.jpg')
     end
   end
 end

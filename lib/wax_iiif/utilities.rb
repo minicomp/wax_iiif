@@ -1,9 +1,9 @@
 require_relative "utilities/pdf_splitter"
 require_relative "utilities/helpers"
 
-module IiifS3
+module WaxIiif
   # Module Utilities provides a set of basic utilities and helper functions for
-  # the IIIFS3 library.
+  # the WaxIiif library.
   #
   # @author David Newbury <david.newbury@gmail.com>
   #

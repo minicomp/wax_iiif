@@ -1,8 +1,8 @@
-module IiifS3
+module WaxIiif
 
   #
   # Class Collection is an abstraction over the IIIF Collection, which is an aggregation
-  # of IIIF manifests. 
+  # of IIIF manifests.
   #
   # @author David Newbury <david.newbury@gmail.com>
   #
@@ -14,8 +14,8 @@ module IiifS3
     include BaseProperties
     attr_reader :collections, :manifests
 
-    def initialize(label, config, name="top")  
-      raise IiifS3::Error::MissingCollectionName if label.nil? || label.empty?
+    def initialize(label, config, name="top")
+      raise WaxIiif::Error::MissingCollectionName if label.nil? || label.empty?
       @config = config
       @manifests = []
       @collections = []
@@ -24,12 +24,12 @@ module IiifS3
     end
 
     def add_collection(collection)
-      raise IiifS3::Error::NotACollection unless collection.respond_to?(:type) && collection.type == Collection::TYPE
+      raise WaxIiif::Error::NotACollection unless collection.respond_to?(:type) && collection.type == Collection::TYPE
       @collections.push(collection)
     end
 
     def add_manifest(manifest)
-      raise IiifS3::Error::NotAManifest unless manifest.respond_to?(:type) && manifest.type == Manifest::TYPE
+      raise WaxIiif::Error::NotAManifest unless manifest.respond_to?(:type) && manifest.type == Manifest::TYPE
       @manifests.push(manifest)
     end
 
@@ -37,7 +37,7 @@ module IiifS3
     #
     #
     # @return [String] The JSON representation as a string
-    # 
+    #
     def to_json
       obj = base_properties
       obj["collections"] = collect_object(collections) unless collections.empty?
@@ -58,4 +58,3 @@ module IiifS3
     end
   end
 end
-

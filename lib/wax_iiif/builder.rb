@@ -1,7 +1,7 @@
 require_relative "utilities"
 require 'pathname'
 
-module IiifS3
+module WaxIiif
   class Builder
 
     include Utilities::Helpers
@@ -19,18 +19,18 @@ module IiifS3
     attr_accessor :manifests
 
     # @!attribute [r] config
-    #   @return [IiifS3::Config] The configuration object
+    #   @return [WaxIiif::Config] The configuration object
     attr_reader :config
 
     # Initialize the builder.
     #
     # @param [Hash] config an optional configuration object.
-    # @see IiifS3::Config
+    # @see WaxIiif::Config
     # @return [Void]
     #
     def initialize(config = {})
       @manifests = []
-      @config = IiifS3::Config.new(config)
+      @config = WaxIiif::Config.new(config)
     end
 
 
@@ -42,7 +42,7 @@ module IiifS3
     #
     # @param [Array<ImageRecord>, ImageRecord] data
     #   Either a single ImageRecord or an Array of ImageRecords.
-    # @raise [IiifS3::Error::InvalidImageData] if any of the data does
+    # @raise [WaxIiif::Error::InvalidImageData] if any of the data does
     #   not pass the validation checks
     #
     # @return [Void]
@@ -52,8 +52,8 @@ module IiifS3
 
       # validate
       @data.each  do |image_record|
-        raise IiifS3::Error::InvalidImageData, "Image record #{image_record.inspect} is not an ImageRecord" unless image_record.is_a? ImageRecord
-        raise IiifS3::Error::InvalidImageData, "Image record #{image_record.inspect} does not have an ID and/or a page number" if image_record.id.nil? || image_record.page_number.nil?
+        raise WaxIiif::Error::InvalidImageData, "Image record #{image_record.inspect} is not an ImageRecord" unless image_record.is_a? ImageRecord
+        raise WaxIiif::Error::InvalidImageData, "Image record #{image_record.inspect} does not have an ID and/or a page number" if image_record.id.nil? || image_record.page_number.nil?
       end
     end
 

@@ -1,27 +1,26 @@
 require 'csv'
 require 'json'
 
-require "iiif_s3/version"
-require "iiif_s3/errors"
-require "iiif_s3/base_properties"
-require "iiif_s3/image_record"
-require "iiif_s3/builder"
-require "iiif_s3/manifest"
-require "iiif_s3/config"
-require "iiif_s3/collection"
-require "iiif_s3/image_variant"
-require "iiif_s3/thumbnail"
-require "iiif_s3/image_tile"
-require "iiif_s3/full_image"
-require "iiif_s3/image_info"
-require "iiif_s3/utilities"
+require "wax_iiif/errors"
+require "wax_iiif/base_properties"
+require "wax_iiif/image_record"
+require "wax_iiif/builder"
+require "wax_iiif/manifest"
+require "wax_iiif/config"
+require "wax_iiif/collection"
+require "wax_iiif/image_variant"
+require "wax_iiif/thumbnail"
+require "wax_iiif/image_tile"
+require "wax_iiif/full_image"
+require "wax_iiif/image_info"
+require "wax_iiif/utilities"
 
-# Module IiifS3 is a tool for generating IIIF resources from a set of files.
+# Module WaxIiif is a tool for generating IIIF resources from a set of files.
 # It's designed to support the IIIF level 0 profile, and generates entirely static files.
 #
 # @author David Newbury <david.newbury@gmail.com>
 #
-module IiifS3
+module WaxIiif
 
 
   #--------------------------------------------------------------------------

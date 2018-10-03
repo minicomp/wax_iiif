@@ -3,7 +3,7 @@ require "mini_magick"
 require 'fileutils'
 require_relative "utilities"
 
-module IiifS3
+module WaxIiif
 
   FakeImageVariant = Struct.new(:id, :width, :height, :uri, :mime_type)
 
@@ -25,26 +25,26 @@ module IiifS3
     # data hash to have an "id", a "image_path", and a "page_number".
     #
     # @param [Hash] data A Image Data object.
-    # @param [IiifS3::Config] config The configuration object
+    # @param [WaxIiif::Config] config The configuration object
     # @param [Number] width the desired width of this object in pixels
     # @param [Number] height the desired height of this object in pixels
-    # @raise IiifS3::Error::InvalidImageData
+    # @raise WaxIiif::Error::InvalidImageData
     #
     def initialize(data, config, size = nil)
 
       @config = config
       # Validate input data
       if data.id.nil? || data.id.to_s.empty?
-        raise IiifS3::Error::InvalidImageData, "Each image needs an ID"
+        raise WaxIiif::Error::InvalidImageData, "Each image needs an ID"
       elsif data.image_path.nil? || data.image_path.to_s.empty?
-        raise IiifS3::Error::InvalidImageData, "Each image needs an path."
+        raise WaxIiif::Error::InvalidImageData, "Each image needs an path."
       end
 
       # open image
       begin
         @image = Image.open(data.image_path)
       rescue MiniMagick::Invalid => e
-        raise IiifS3::Error::InvalidImageData, "Cannot read this image file: #{data.image_path}. #{e}"
+        raise WaxIiif::Error::InvalidImageData, "Cannot read this image file: #{data.image_path}. #{e}"
       end
 
       width = size.nil? ? width : size

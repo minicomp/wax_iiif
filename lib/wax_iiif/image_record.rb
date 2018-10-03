@@ -1,11 +1,11 @@
-module IiifS3
+module WaxIiif
   # Class ImageRecord provides a data structure for a single image file.
   # It contains information for content from the manifest level down to the
-  # specific variants of the images.  
-  # 
+  # specific variants of the images.
+  #
   # It has the concept of primary images, which are the first (or only) image
-  # in the sequence.  This is the image where much of the top-level metadata is 
-  # taken from.  Each sequence can only have a single primary image, but that 
+  # in the sequence.  This is the image where much of the top-level metadata is
+  # taken from.  Each sequence can only have a single primary image, but that
   # constraint in enforced
   #
   # @author David Newbury <david.newbury@gmail.com>
@@ -20,13 +20,13 @@ module IiifS3
 
     attr_accessor :logo
     attr_accessor :variants
-    
+
     attr_writer :page_number
     attr_writer :section
     attr_writer :section_label
     attr_writer :is_document
-    
-    # @param [Hash] opts 
+
+    # @param [Hash] opts
     # @option opts [String] :id The primary ID for the object.
     # @option opts [String] :label The human-readable label for all grouped records
     # @option opts [String] :description A longer, human-readable description of the gropued records
@@ -54,62 +54,62 @@ module IiifS3
     end
 
     def path=(_path)
-      raise IiifS3::Error::InvalidImageData, "Path is invalid: '#{_path}'" unless _path && File.exist?(_path)
+      raise WaxIiif::Error::InvalidImageData, "Path is invalid: '#{_path}'" unless _path && File.exist?(_path)
       @path = _path
     end
 
     # Is this image part of a document, or is it a standalone image (or image sequence)?
-    # 
-    # Currently, the only effects the page viewing hint for the image sequence.  
+    #
+    # Currently, the only effects the page viewing hint for the image sequence.
     # This will only have an effect on the primary image for this sequence.
     #
     # @return [Bool]
-    # 
+    #
     def is_document
       return !!@is_document
     end
     alias :is_document? :is_document
 
-    # The name of the section this image is contained in.  
-    # Currently used to id the canvas for this image. 
-    # 
-    # defaults to IiifS3::DEFAULT_CANVAS_LABEL
+    # The name of the section this image is contained in.
+    # Currently used to id the canvas for this image.
+    #
+    # defaults to WaxIiif::DEFAULT_CANVAS_LABEL
     #
     # @return [String]
-    # 
+    #
     def section
       @section || DEFAULT_CANVAS_LABEL
     end
 
-    # The label for the section this image is contained in.  
-    # Currently used to label the canvas for this image. 
+    # The label for the section this image is contained in.
+    # Currently used to label the canvas for this image.
     #
-    # defaults to IiifS3::DEFAULT_CANVAS_LABEL
+    # defaults to WaxIiif::DEFAULT_CANVAS_LABEL
     #
-    # @return [String] 
-    # 
+    # @return [String]
+    #
     def section_label
       @section_label || DEFAULT_CANVAS_LABEL
     end
 
     # @return [String] The prefered viewing direction for this image.
-    #   Will default to IiifS3::DEFAULT_VIEWING_DIRECTION
-    # 
+    #   Will default to WaxIiif::DEFAULT_VIEWING_DIRECTION
+    #
     def viewing_direction
       @viewing_direction || DEFAULT_VIEWING_DIRECTION
     end
 
     def viewing_direction=(dir)
-      raise Error::InvalidViewingDirection unless IiifS3.is_valid_viewing_direction(dir)
-      @viewing_direction = dir  
+      raise Error::InvalidViewingDirection unless WaxIiif.is_valid_viewing_direction(dir)
+      @viewing_direction = dir
     end
 
     # Is this image the master image for its sequence?
     #
     # Each image sequence has a single image chosen as the primary image for
     # the sequence.  By default, page one is the master image, but another image
-    # could be chosen as the master if desired. 
-    # 
+    # could be chosen as the master if desired.
+    #
     # This is, for instance, the image whose thumbnail is the representation for
     # the entire sequence, and it defined viewing direction and other top-level
     # metadata.
@@ -133,7 +133,7 @@ module IiifS3
     # @param [Bool] val Is this image the master
     #
     # @return [Bool]
-    # 
+    #
     def is_primary=(val)
       @is_primary = !!val
     end

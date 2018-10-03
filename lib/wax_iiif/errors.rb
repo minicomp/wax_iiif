@@ -1,7 +1,7 @@
-module IiifS3
+module WaxIiif
 
   #
-  # Module Error collects standard errors for th IiifS3 library.
+  # Module Error collects standard errors for th WaxIiif library.
   module Error
 
     # Class BlankCSV indicates that a provided CSV has no data.
@@ -18,16 +18,16 @@ module IiifS3
 
     # Class NotACollection indicates that the object provided was not a sc:Collection.
     class NotACollection < StandardError; end
- 
+
     # Class NotAManifest indicates that the object provided was not a sc:Manifest.
     class NotAManifest < StandardError; end
-    
+
     # Class InvalidCSV indicates that there is something wrong with the provided Image Data.
     class InvalidImageData < StandardError; end
 
     # Class InvalidViewingDirection indicates that the direction provided was not a valid viewing direction.
     class InvalidViewingDirection < InvalidImageData; end
-    
+
     # Class MultiplePrimaryImages indicates that multiple images were tagged as primary for a given manifest.
     class MultiplePrimaryImages < InvalidImageData; end
 

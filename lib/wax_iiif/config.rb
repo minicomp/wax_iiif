@@ -1,7 +1,7 @@
-module IiifS3
+module WaxIiif
 
   # Config provides a data structure for holding the configuration settings
-  # for the IiifS3 class.
+  # for the WaxIiif class.
   #
   # @author David Newbury <david.newbury@gmail.com>
   #
@@ -23,7 +23,7 @@ module IiifS3
     #
     # @!attribute [r] base_url
     #   @return [String] The protocol, domain, and port used for generating URIs.
-    #   Defaults to {IiifS3::Config::DEFAULT_URL}
+    #   Defaults to {WaxIiif::Config::DEFAULT_URL}
     attr_reader :base_url
     #
     # @!attribute [r] use_extensions
@@ -34,7 +34,7 @@ module IiifS3
     # @!attribute [r] output_dir
     #   @return [String] The directory on the local file system where the output
     #     files should be saved
-    #     Defaults to {IiifS3::Config::DEFAULT_OUTPUT_DIRECTORY}
+    #     Defaults to {WaxIiif::Config::DEFAULT_OUTPUT_DIRECTORY}
     attr_reader :output_dir
     #
     # @!attribute [r] prefix
@@ -47,17 +47,17 @@ module IiifS3
     # @!attribute [r] image_directory_name
     #   @return [String] The name of the directory/prefix where image files will be
     #   located.
-    #   Defaults to IiifS3::Config::DEFAULT_IMAGE_DIRECTORY_NAME
+    #   Defaults to WaxIiif::Config::DEFAULT_IMAGE_DIRECTORY_NAME
     attr_reader :image_directory_name
     #
     # @!attribute [r] tile_width
     #   @return [Number] The width (and height) of each individual tile.
-    #   Defaults to IiifS3::Config::DEFAULT_TILE_WIDTH
+    #   Defaults to WaxIiif::Config::DEFAULT_TILE_WIDTH
     attr_reader :tile_width
     #
     # @!attribute [r] tile
     #   @return [Array<Number>] An array of tile ratios to be uploaded.
-    #   Defaults to IiifS3::Config::DEFAULT_TILE_SCALE_FACTORS
+    #   Defaults to WaxIiif::Config::DEFAULT_TILE_SCALE_FACTORS
     attr_reader :tile_scale_factors
     #
     # @!attribute [r] variants
@@ -81,7 +81,7 @@ module IiifS3
     alias :verbose? :verbose
 
     # @!attribute [r] s3
-    #   @return [IiifS3::AmazonS3] the S3 object for this system
+    #   @return [WaxIiif::AmazonS3] the S3 object for this system
     attr_reader :s3
 
 
@@ -108,7 +108,7 @@ module IiifS3
     # @option opts [Hash{String: String}] :variants
     def initialize(opts = {})
       @upload_to_s3   = opts[:upload_to_s3] || false
-      @s3             = IiifS3::AmazonS3.new if @upload_to_s3
+      @s3             = WaxIiif::AmazonS3.new if @upload_to_s3
       @tile_width     = opts[:tile_width]                 || DEFAULT_TILE_WIDTH
       @tile_scale_factors = opts[:tile_scale_factors]     || DEFAULT_TILE_SCALE_FACTORS
       @image_directory_name = opts[:image_directory_name] || DEFAULT_IMAGE_DIRECTORY_NAME
@@ -127,7 +127,7 @@ module IiifS3
 
     # Compare two configuration files
     #
-    # @param [IiifS3::Config] other_config The configuration file to compare
+    # @param [WaxIiif::Config] other_config The configuration file to compare
     #
     # @return [Bool] True if they are the same, false otherwise
     #

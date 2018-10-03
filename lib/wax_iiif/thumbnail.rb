@@ -1,7 +1,7 @@
 require "mini_magick"
 require 'fileutils'
 
-module IiifS3
+module WaxIiif
 
   #
   # Class Thumbnail provides a specific variant of an image file used for the thumbnail links

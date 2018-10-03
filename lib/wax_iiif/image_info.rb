@@ -1,8 +1,8 @@
-module IiifS3
+module WaxIiif
 
   #
   # Class ImageInfo is a data object for the JSON representation of the image.
-  # 
+  #
   # It is designed to support the http://iiif.io/api/image/2.0/#image-information spec.
   class ImageInfo
 
@@ -14,9 +14,9 @@ module IiifS3
 
       def initialize(uri, variants, tile_width= nil, tile_scale_factors = nil)
 
-        raise IiifS3::Error::InvalidImageData, "No full variant provided:  variants: #{variants}" unless variants["full"]
-        raise IiifS3::Error::InvalidImageData, "No thumbnail variant provided:  variants: #{variants}" unless variants["thumbnail"]
-        raise IiifS3::Error::InvalidImageData, "No URI was provided for this image!" if uri.nil?
+        raise WaxIiif::Error::InvalidImageData, "No full variant provided:  variants: #{variants}" unless variants["full"]
+        raise WaxIiif::Error::InvalidImageData, "No thumbnail variant provided:  variants: #{variants}" unless variants["thumbnail"]
+        raise WaxIiif::Error::InvalidImageData, "No URI was provided for this image!" if uri.nil?
 
         @id = uri
         full = variants["full"]
@@ -28,7 +28,7 @@ module IiifS3
       end
 
       # @return [Hash] a collection of valid sizes based on the available image variants
-      #  
+      #
       def sizes
          @variants.collect do |name,obj|
           {"width" => obj.width, "height" => obj.height}
@@ -39,10 +39,10 @@ module IiifS3
       #
       #
       # @return [Hash, nil] A hash of the tile metadata properly formatted for IIIF JSON.
-      # 
+      #
       def tiles
         return nil if @tile_scale_factors.nil? || @tile_scale_factors.empty?
-        
+
         return [{
           "width" => @tile_width,
           "scaleFactors" => @tile_scale_factors
@@ -54,7 +54,7 @@ module IiifS3
       #
       #
       # @return [String] the JSON representation of this image
-      # 
+      #
       def to_json
         obj = {
           "@context" => context,
@@ -73,17 +73,17 @@ module IiifS3
 
       # @return [String] The IIIF context for this image
       def context
-       IiifS3::IMAGE_CONTEXT
+       WaxIiif::IMAGE_CONTEXT
       end
 
       # @return [String] The IIIF protocol for this image
-      def protocol 
-        IiifS3::IMAGE_PROTOCOL
+      def protocol
+        WaxIiif::IMAGE_PROTOCOL
       end
 
       # @return [String] The IIIF profile this image supports
       def profile
-        [IiifS3::LEVEL_0,{
+        [WaxIiif::LEVEL_0,{
           supports: ["cors","sizeByWhListed", "baseUriRedirect"]
         }]
       end

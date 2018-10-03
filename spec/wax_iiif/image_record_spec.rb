@@ -2,42 +2,42 @@
  require "base_properties_spec"
 
 
-describe IiifS3::ImageRecord do
+describe WaxIiif::ImageRecord do
   let(:opts) {{
       id: 1
     }}
-    let(:image_record) {IiifS3::ImageRecord.new(opts)}
+    let(:image_record) {WaxIiif::ImageRecord.new(opts)}
 
   it "initializes without an error" do
-    expect{IiifS3::ImageRecord.new}.not_to raise_error    
+    expect{WaxIiif::ImageRecord.new}.not_to raise_error    
   end
   it "initializes without an error when provided a hash" do
     opts = {id: 1}
-    expect{IiifS3::ImageRecord.new(opts)}.not_to raise_error    
+    expect{WaxIiif::ImageRecord.new(opts)}.not_to raise_error    
   end
 
   context "#viewing_direction" do
     it "has a sensible default" do
-      expect(image_record.viewing_direction).to eq IiifS3::DEFAULT_VIEWING_DIRECTION
+      expect(image_record.viewing_direction).to eq WaxIiif::DEFAULT_VIEWING_DIRECTION
     end
 
-    it "rejects invalid viewing directions on init" do 
+    it "rejects invalid viewing directions on init" do
       opts = {viewing_direction: "wonky"}
-      expect{IiifS3::ImageRecord.new(opts)}.to raise_error(IiifS3::Error::InvalidViewingDirection)
+      expect{WaxIiif::ImageRecord.new(opts)}.to raise_error(WaxIiif::Error::InvalidViewingDirection)
     end
 
-    it "rejects setting invalid viewing directions" do 
-      expect{image_record.viewing_direction = "wonky"}.to raise_error(IiifS3::Error::InvalidViewingDirection)
+    it "rejects setting invalid viewing directions" do
+      expect{image_record.viewing_direction = "wonky"}.to raise_error(WaxIiif::Error::InvalidViewingDirection)
     end
   end
 
   it "initializes with provided hash values" do
     expect(image_record.id).to eq opts[:id]
-  end 
+  end
   it "ignores unknown data" do
     opts["junk_data"] = "bozo"
-    expect{IiifS3::ImageRecord.new(opts)}.not_to raise_error    
-  end 
+    expect{WaxIiif::ImageRecord.new(opts)}.not_to raise_error    
+  end
   context "#is_primary" do
     it "defaults to false" do
       image_record.page_number = 2
@@ -67,10 +67,10 @@ describe IiifS3::ImageRecord do
   end
   context "#image_path" do
     it "raises on a blan path" do
-      expect{image_record.path = nil}.to raise_error(IiifS3::Error::InvalidImageData)
+      expect{image_record.path = nil}.to raise_error(WaxIiif::Error::InvalidImageData)
     end
     it "raises an error for a bad file name" do
-      expect{image_record.path = "imaginary_file.jpg"}.to raise_error(IiifS3::Error::InvalidImageData)
+      expect{image_record.path = "imaginary_file.jpg"}.to raise_error(WaxIiif::Error::InvalidImageData)
     end
   end
   context "#section" do

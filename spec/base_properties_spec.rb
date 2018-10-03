@@ -10,7 +10,7 @@ shared_examples "base properties" do
     expect(@object.id).not_to be_nil
   end
   it "has a valid @id" do
-    expect(@object.id).to include IiifS3::Config::DEFAULT_URL
+    expect(@object.id).to include WaxIiif::Config::DEFAULT_URL
   end
   it "encodes @ids when set" do
     @object.id = "http://www.example.com/a space"

@@ -1,4 +1,4 @@
-module IiifS3
+module WaxIiif
 
   FakeManifest = Struct.new(:id, :type, :label)
 
@@ -27,21 +27,21 @@ module IiifS3
     # @param [Array<ImageRecord>] image_records An array of ImageRecord types
     # @param [<type>] config <description>
     # @param [<type>] opts <description>
-    # 
+    #
     def initialize(image_records,config, opts = {})
       @config = config
       image_records.each do |record|
-        raise IiifS3::Error::InvalidImageData, "The data provided to the manifest were not ImageRecords" unless record.is_a? ImageRecord
+        raise WaxIiif::Error::InvalidImageData, "The data provided to the manifest were not ImageRecords" unless record.is_a? ImageRecord
       end
 
       @primary = image_records.find{|obj| obj.is_primary}
-      raise IiifS3::Error::InvalidImageData, "No 'is_primary' was found in the image data." unless @primary
-      raise IiifS3::Error::MultiplePrimaryImages, "Multiple primary images were found in the image data." unless image_records.count{|obj| obj.is_primary} == 1
+      raise WaxIiif::Error::InvalidImageData, "No 'is_primary' was found in the image data." unless @primary
+      raise WaxIiif::Error::MultiplePrimaryImages, "Multiple primary images were found in the image data." unless image_records.count{|obj| obj.is_primary} == 1
 
       self.id =          "#{@primary.id}/manifest"
       self.label =        @primary.label       || opts[:label]                 || ""
       self.description =  @primary.description || opts[:description]
-      self.attribution =  @primary.attribution || opts.fetch(:attribution, nil) 
+      self.attribution =  @primary.attribution || opts.fetch(:attribution, nil)
       self.logo =         @primary.logo        || opts.fetch(:logo, nil)
       self.license =      @primary.license     || opts.fetch(:license, nil)
       self.metadata =     @primary.metadata    || opts.fetch(:metadata, nil)
@@ -51,12 +51,12 @@ module IiifS3
 
     #
     # @return [String]  the JSON-LD representation of the manifest as a string.
-    # 
+    #
     def to_json
       obj = base_properties
 
       obj["thumbnail"]   = @primary.variants["thumbnail"].uri
-      obj["viewingDirection"] = @primary.viewing_direction 
+      obj["viewingDirection"] = @primary.viewing_direction
       obj["viewingHint"] = @primary.is_document ? "paged" : "individuals"
       obj["sequences"] = [@sequences]
 
@@ -65,13 +65,13 @@ module IiifS3
 
     #
     # Save the manifest and all sub-resources to disk, using the
-    # paths contained withing the IiifS3::Config object passed at 
+    # paths contained withing the WaxIiif::Config object passed at 
     # initialization.
-    # 
+    #
     # Will create the manifest, sequences, canvases, and annotation subobjects.
     #
-    # @return [Void] 
-    # 
+    # @return [Void]
+    #
     def save_all_files_to_disk
       data = JSON.parse(self.to_json)
       save_to_disk(data)
@@ -91,7 +91,7 @@ module IiifS3
 
 
     #--------------------------------------------------------------------------
-    def build_sequence(image_records,opts = {name: DEFAULT_SEQUENCE_NAME}) 
+    def build_sequence(image_records,opts = {name: DEFAULT_SEQUENCE_NAME})
       name = opts.delete(:name)
       seq_id = generate_id "#{@primary.id}/sequence/#{name}"
 
@@ -126,7 +126,7 @@ module IiifS3
     end
 
     #--------------------------------------------------------------------------
-    def build_image(data, canvas)     
+    def build_image(data, canvas)
       annotation_id =  generate_id "#{data.id}/annotation/#{data.section}"
       {
         "@type" => ANNOTATION_TYPE,
@@ -137,15 +137,15 @@ module IiifS3
           "@type" => IMAGE_TYPE,
           "format" => data.variants["full"].mime_type || "image/jpeg",
           "service" => {
-            "@context" => IiifS3::IMAGE_CONTEXT,
+            "@context" => WaxIiif::IMAGE_CONTEXT,
             "@id" => data.variants["full"].id,
-            "profile" => IiifS3::LEVEL_0,
+            "profile" => WaxIiif::LEVEL_0,
           },
           "width" => data.variants["full"].width,
           "height" => data.variants["full"].height,
         },
         "on" => canvas["@id"]
       }
-    end   
+    end
   end
 end

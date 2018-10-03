@@ -2,7 +2,7 @@
 require "mini_magick"
 require 'fileutils'
 
-module IiifS3
+module WaxIiif
 
   #
   # Class FullImage is a standard image variant that does not resize the image at all.

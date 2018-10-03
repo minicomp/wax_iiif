@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-describe IiifS3::ImageVariant do
-  let(:config) {IiifS3::Config.new}
-  let(:data) { IiifS3::ImageRecord.new({
+describe WaxIiif::ImageVariant do
+  let(:config) {WaxIiif::Config.new}
+  let(:data) { WaxIiif::ImageRecord.new({
       "path" => "./spec/data/test.jpg",
       "id" => 1,
       "page_number" => 1
@@ -11,29 +11,29 @@ describe IiifS3::ImageVariant do
   context "initialization errors" do
     it "raises if the image does not have an ID" do
       data.id =nil
-      expect{IiifS3::ImageVariant.new(data, config)}.to raise_error(IiifS3::Error::InvalidImageData)
+      expect{WaxIiif::ImageVariant.new(data, config)}.to raise_error(WaxIiif::Error::InvalidImageData)
     end
     it "raises if the image has a blank ID" do
       data.id = ""
-      expect{IiifS3::ImageVariant.new(data, config)}.to raise_error(IiifS3::Error::InvalidImageData)
+      expect{WaxIiif::ImageVariant.new(data, config)}.to raise_error(WaxIiif::Error::InvalidImageData)
     end
 
     it "raises if the image is not a valid image file" do
       data.path = "./spec/data/test.csv"
-      expect{IiifS3::ImageVariant.new(data, config)}.to raise_error(IiifS3::Error::InvalidImageData)
+      expect{WaxIiif::ImageVariant.new(data, config)}.to raise_error(WaxIiif::Error::InvalidImageData)
     end
 
   end
 
   context "basic data" do
     before(:all) do
-      data = IiifS3::ImageRecord.new({
+      data = WaxIiif::ImageRecord.new({
         "path" => "./spec/data/test.jpg",
         "id" => 1,
         "page_number" => 1
       })
-       config = IiifS3::Config.new
-       @img = IiifS3::ImageVariant.new(data, config, 100)
+       config = WaxIiif::Config.new
+       @img = WaxIiif::ImageVariant.new(data, config, 100)
     end
 
     it "has a uri" do
@@ -52,13 +52,13 @@ describe IiifS3::ImageVariant do
 
   context "Full Image" do
     before(:all) do
-      data = IiifS3::ImageRecord.new({
+      data = WaxIiif::ImageRecord.new({
         "path" => "./spec/data/test.jpg",
         "id" => 1,
         "page_number" => 1
       })
-       config = IiifS3::Config.new
-       @img = IiifS3::FullImage.new(data, config)
+       config = WaxIiif::Config.new
+       @img = WaxIiif::FullImage.new(data, config)
     end
     it "has the default filestring" do
       expect(@img.uri).to include "full/full"

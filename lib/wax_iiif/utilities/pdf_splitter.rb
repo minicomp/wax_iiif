@@ -1,6 +1,6 @@
 require "mini_magick"
 
-module IiifS3
+module WaxIiif
   module Utilities
 
     #
@@ -15,7 +15,7 @@ module IiifS3
       # @param [Hash] options The configuration hash
       #
       # @return [Array<String>] The paths to the generated files
-      # 
+      #
       def self.split(path, options={})
 
         output_dir = options.fetch(:output_dir, ".")
@@ -29,11 +29,11 @@ module IiifS3
 
         pdf.pages.each_with_index do |page, index|
           page_file_name = "#{output_dir}/#{name}_#{index+1}.jpg"
-          
+
           MiniMagick::Tool::Convert.new do |convert|
             convert.density("300")
             convert.units("PixelsPerInch")
-            convert << page.path  
+            convert << page.path
             convert.quality("80")
             convert.colorspace("sRGB")
             convert.interlace("none")

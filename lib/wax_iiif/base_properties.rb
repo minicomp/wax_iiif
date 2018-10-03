@@ -1,14 +1,14 @@
 require_relative "utilities"
-module IiifS3
+module WaxIiif
 
   # Module BaseProperties provides the set of properties that are shared across
   # all IIIF types.  It is not a comprehensive list (yet), but it does handle
   # most of the shared types.  It does not include any types that have class-based
   # restrictions.
-  # 
-  # It also performs some basic sanity checking on (some of) the fields, and 
+  #
+  # It also performs some basic sanity checking on (some of) the fields, and
   # provides utility classes that are applicable across the fields.
-  # 
+  #
   # @todo Add within, service, seeAlso, viewingHint fields
   #
   # @author David Newbury <david.newbury@gmail.com>
@@ -28,7 +28,7 @@ module IiifS3
     attr_accessor :description
     # @!attribute [rw] metadata
     #   @return [Hash] A set of key/value pairs describing additional metadata for the object.
-    attr_accessor :metadata    
+    attr_accessor :metadata
     # @!attribute [rw] attribution
     #   @return [String] a human-readable label, typically used for attribution or credit.
     attr_accessor :attribution
@@ -49,7 +49,7 @@ module IiifS3
       self.class::TYPE
     end
 
-    # Set the unique id for this record.  
+    # Set the unique id for this record.
     # This will automatically append the defined prefixes and suffixes.
     #
     # @param [String] _id The unique portion of this ID
@@ -63,7 +63,7 @@ module IiifS3
     #
     # @return [Hash] The base properties of this record
     def base_properties
-      obj = { 
+      obj = {
         "@context" => PRESENTATION_CONTEXT,
         "@id" => self.id,
         "@type" => self.type,
