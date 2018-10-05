@@ -1,15 +1,10 @@
-
 require 'mini_magick'
 require 'fileutils'
 require_relative 'utilities'
 
 module WaxIiif
-
   FakeImageVariant = Struct.new(:id, :width, :height, :uri, :mime_type)
-
-  #
   # Class ImageVariant represents a single image file within a manifest.
-  #
   #
   # @author David Newbury <david.newbury@gmail.com>
   #
@@ -17,7 +12,6 @@ module WaxIiif
     include Utilities::Helpers
     include MiniMagick
 
-    #
     # Initializing an ImageVariant will create the actual image file
     # on the file system.
     #
@@ -31,13 +25,12 @@ module WaxIiif
     # @raise WaxIiif::Error::InvalidImageData
     #
     def initialize(data, config, size = nil)
-
       @config = config
       # Validate input data
       if data.id.nil? || data.id.to_s.empty?
-        raise WaxIiif::Error::InvalidImageData, "Each image needs an ID"
+        raise WaxIiif::Error::InvalidImageData, 'Each image needs an ID'
       elsif data.image_path.nil? || data.image_path.to_s.empty?
-        raise WaxIiif::Error::InvalidImageData, "Each image needs an path."
+        raise WaxIiif::Error::InvalidImageData, 'Each image needs an path.'
       end
 
       # open image
@@ -51,30 +44,25 @@ module WaxIiif
       resize(width)
       @image.format 'jpg'
 
-      @id =   generate_image_id(data.id,data.page_number)
-      @uri =  "#{id}#{filestring}/default.jpg"
+      @id   = generate_image_id(data.id, data.page_number)
+      @uri  = "#{id}#{filestring}/default.jpg"
 
       # Create the on-disk version of the file
-      path = "#{generate_image_location(data.id,data.page_number)}#{filestring}"
-      FileUtils::mkdir_p path
+      path = "#{generate_image_location(data.id, data.page_number)}#{filestring}"
+      FileUtils.mkdir_p path
       filename = "#{path}/default.jpg"
-      @image.write filename unless File.exists? filename
-      add_file_to_s3(filename) if @config.upload_to_s3
+      @image.write filename unless File.exist? filename
     end
-
 
     # @!attribute [r] uri
     # @return [String] The URI for the jpeg image
     attr_reader :uri
 
-    #
     # @!attribute [r] id
     #   @return [String] The URI for the variant.
     attr_reader :id
 
-
     # Get the image width
-    #
     #
     # @return [Number] The width of the image in pixels
     def width
@@ -83,13 +71,11 @@ module WaxIiif
 
     # Get the image height
     #
-    #
     # @return [Number] The height of the image in pixels
     def height
       @image.height
     end
 
-    #
     # Get the MIME Content-Type of the image.
     #
     # @return [String] the MIME Content-Type (typically 'image/jpeg')
@@ -116,12 +102,11 @@ module WaxIiif
     end
 
     def resize(width)
-      @image.resize "#{width}"
+      @image.resize width
     end
 
     def filestring
       "/#{region}/#{width},/0"
     end
-
   end
 end

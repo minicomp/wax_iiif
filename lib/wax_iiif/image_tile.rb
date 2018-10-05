@@ -1,10 +1,7 @@
-
 require 'mini_magick'
 require 'fileutils'
 
 module WaxIiif
-
-  #
   # Class ImageTile is a specific ImageVariant used when generating a
   # stack of tiles suitable for Mirador-style zooming interfaces. Each
   # instance of ImageTile represents a single tile.
@@ -12,8 +9,6 @@ module WaxIiif
   # @author David Newbury <david.newbury@gmail.com>
   #
   class ImageTile < ImageVariant
-
-    #
     # Initializing this
     #
     # @param [Hash] data A Image Data object.
@@ -27,7 +22,7 @@ module WaxIiif
 
     protected
 
-    def resize(width=nil,height=nil)
+    def resize(_width=nil, _height=nil)
       @image.combine_options do |img|
         img.crop "#{@tile[:width]}x#{@tile[:height]}+#{@tile[:x]}+#{@tile[:y]}"
         img.resize "#{@tile[:xSize]}x#{@tile[:ySize]}"
@@ -41,6 +36,5 @@ module WaxIiif
     def filestring
       "/#{region}/#{@tile[:xSize]},/0"
     end
-
   end
 end

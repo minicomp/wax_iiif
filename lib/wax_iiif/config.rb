@@ -1,22 +1,20 @@
 module WaxIiif
-
   # Config provides a data structure for holding the configuration settings
   # for the WaxIiif class.
   #
   # @author David Newbury <david.newbury@gmail.com>
   #
   class Config
-
     # @return [String] The default URL to append to all IDs.
-    DEFAULT_URL = 'http://0.0.0.0'
+    DEFAULT_URL = 'http://0.0.0.0'.freeze
     # @return [String] The name of the subdirectory where generated images live
-    DEFAULT_IMAGE_DIRECTORY_NAME = 'images'
+    DEFAULT_IMAGE_DIRECTORY_NAME = 'images'.freeze
     # @return [String] The default path for writing generated image files
-    DEFAULT_OUTPUT_DIRECTORY = './build'
+    DEFAULT_OUTPUT_DIRECTORY = './build'.freeze
     # @return [Number] The default tile width/height in pixels
     DEFAULT_TILE_WIDTH = 512
     # @return [Array<Number>] The default tile scaling factors
-    DEFAULT_TILE_SCALE_FACTORS = [1,2,4,8]
+    DEFAULT_TILE_SCALE_FACTORS = [1, 2, 4, 8].freeze
     # @return [Number] The default thumbnail size in pixels
     DEFAULT_THUMBNAIL_SIZE = 250
 
@@ -65,11 +63,6 @@ module WaxIiif
     #     each value the maximum pixel dimension of the longest side.
     #   Defaults to {}
     attr_reader :variants
-    #
-    # @!attribute [r] upload_to_s3
-    #   @return [Boolean] Should the files that are created by automatically uploaded to Amazon S3?
-    #   Defaults to false
-    attr_reader :upload_to_s3
 
     # @!attribute [r] thumbnail_size
     #   @return [Number] The max width in pixels for a thumbnail image
@@ -78,18 +71,11 @@ module WaxIiif
     # @!attribute [r] verbose
     #   @return [Bool] Should the program log information to the console?
     attr_reader :verbose
-    alias :verbose? :verbose
-
-    # @!attribute [r] s3
-    #   @return [WaxIiif::AmazonS3] the S3 object for this system
-    attr_reader :s3
-
+    alias verbose? verbose
 
     # Initialize a new configuration option.
     #
     # @param [Hash] opts
-    # @option opts [Boolean] :upload_to_s3 if true, images and metadata will be
-    #   uploaded to Amazon S3.  Defaults to False.
     # @option opts [Number] :tile_width The width in pixels for generated tiles.
     #   Defaults to {DEFAULT_TILE_WIDTH}
     # @option opts [Array<Number>] :tile_scale_factors An array of ratios for generated tiles.
@@ -99,7 +85,7 @@ module WaxIiif
     # @option opts [String] :output_dir The name of the directory for generated files.
     #   image data. Defaults to {DEFAULT_OUTPUT_DIRECTORY}
     # @option opts [String] :base_url The base URL for the generated URIs.  Defaults to
-    #   {DEFAULT_URL} if not auto-uploading to S3 and to the s3 bucket if upload_to_s3 is enabled.
+    #   {DEFAULT_URL}
     # @option opts [Number] :thumbnail_size the size in pixels
     #   for the largest side of the thumbnail images.  Defaults to {DEFAULT_THUMBNAIL_SIZE}.
     # @option opts [Bool] :use_extensions (true) should files have exensions appended?
@@ -107,34 +93,29 @@ module WaxIiif
     # @option opts [String] :prefix ('') a prefix (read: subdirectory) for the generated URIs.
     # @option opts [Hash{String: String}] :variants
     def initialize(opts = {})
-      @upload_to_s3   = opts[:upload_to_s3] || false
-      @s3             = WaxIiif::AmazonS3.new if @upload_to_s3
-      @tile_width     = opts[:tile_width]                 || DEFAULT_TILE_WIDTH
-      @tile_scale_factors = opts[:tile_scale_factors]     || DEFAULT_TILE_SCALE_FACTORS
+      @upload_to_s3         = opts[:upload_to_s3]         || false
+      @tile_width           = opts[:tile_width]           || DEFAULT_TILE_WIDTH
+      @tile_scale_factors   = opts[:tile_scale_factors]   || DEFAULT_TILE_SCALE_FACTORS
       @image_directory_name = opts[:image_directory_name] || DEFAULT_IMAGE_DIRECTORY_NAME
-      @base_url       = opts[:base_url]                   || ( @upload_to_s3 ? @s3.bucket.url : DEFAULT_URL)
-      @use_extensions = opts.fetch(:use_extensions, true) ## true
-      @output_dir     = opts[:output_dir]                 || DEFAULT_OUTPUT_DIRECTORY
-      @variants       = opts[:variants]                   || {}
-      @thumbnail_size = opts[:thumbnail_size]             || DEFAULT_THUMBNAIL_SIZE
-      @verbose        = opts.fetch(:verbose, false)       ## false
-      @prefix         = opts[:prefix]                     || ''
-      if @prefix.length > 0 && @prefix[0] != '/'
-        @prefix = "/#{@prefix}"
-      end
+      @base_url             = opts[:base_url]             || DEFAULT_URL
+      @use_extensions       = opts.fetch(:use_extensions, true) ## true
+      @output_dir           = opts[:output_dir]           || DEFAULT_OUTPUT_DIRECTORY
+      @variants             = opts[:variants]             || {}
+      @thumbnail_size       = opts[:thumbnail_size]       || DEFAULT_THUMBNAIL_SIZE
+      @verbose              = opts.fetch(:verbose, false) ## false
+      @prefix               = opts[:prefix] || ''
+      @prefix = "/#{@prefix}" if @prefix.length.positive? && @prefix[0] != '/'
     end
-
 
     # Compare two configuration files
     #
     # @param [WaxIiif::Config] other_config The configuration file to compare
-    #
     # @return [Bool] True if they are the same, false otherwise
     #
-    def ==(other_config)
+    def ==(other)
       valid = true
       self.instance_variables.each do |v|
-        valid &&= instance_variable_get(v) == other_config.instance_variable_get(v)
+        valid &&= instance_variable_get(v) == other.instance_variable_get(v)
       end
       valid
     end

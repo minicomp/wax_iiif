@@ -1,9 +1,6 @@
 module WaxIiif
-
-  #
   # Module Error collects standard errors for th WaxIiif library.
   module Error
-
     # Class BlankCSV indicates that a provided CSV has no data.
     class BlankCSV < StandardError; end
 

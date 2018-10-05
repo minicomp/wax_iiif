@@ -8,4 +8,5 @@ addons:
     packages:
       - ghostscript
 script:
+  - bundle exec rubocop
   - bundle exec rspec

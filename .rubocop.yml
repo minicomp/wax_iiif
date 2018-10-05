@@ -29,3 +29,5 @@ Style/GuardClause:
   Enabled: false
 Layout/EmptyLineAfterGuardClause:
   Enabled: false
+Lint/UriEscapeUnescape:
+  Enabled: false

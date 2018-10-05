@@ -15,7 +15,6 @@ module WaxIiif
       # @return [Array<String>] The paths to the generated files
       #
       def self.split(path, options={})
-
         output_dir = options.fetch(:output_dir, '.')
         verbose = options.fetch(:verbose, false)
         puts "processing #{path}" if verbose
@@ -26,7 +25,7 @@ module WaxIiif
         pdf = MiniMagick::Image.open(path)
 
         pdf.pages.each_with_index do |page, index|
-          page_file_name = "#{output_dir}/#{name}_#{index+1}.jpg"
+          page_file_name = "#{output_dir}/#{name}_#{index + 1}.jpg"
 
           MiniMagick::Tool::Convert.new do |convert|
             convert.density('300')

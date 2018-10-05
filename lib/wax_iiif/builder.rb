@@ -207,10 +207,6 @@ module WaxIiif
       File.open(filename, 'w') do |file|
         file.puts info.to_json
       end
-      if @config.upload_to_s3
-        add_file_to_s3(filename)
-        add_default_redirect(filename)
-      end
       info
     end
 

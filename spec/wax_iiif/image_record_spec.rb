@@ -41,28 +41,28 @@ describe WaxIiif::ImageRecord do
   context '#is_primary' do
     it 'defaults to false' do
       image_record.page_number = 2
-      expect(image_record.is_primary).to equal(false)
+      expect(image_record.primary?).to equal(false)
     end
     it 'defaults to true for first pages' do
       image_record.page_number = 1
-      expect(image_record.is_primary).to equal(true)
+      expect(image_record.primary?).to equal(true)
     end
     it 'has an alias' do
       image_record.page_number = 1
-      expect(image_record.is_primary?).to equal(true)
+      expect(image_record.primary?).to equal(true)
     end
     it 'forces is_primary to boolean' do
       image_record.is_primary = 'banana'
-      expect(image_record.is_primary).to equal(true)
+      expect(image_record.primary?).to equal(true)
     end
     it 'uses page_number for intellegent defaults' do
       image_record.page_number = 1
-      expect(image_record.is_primary).to equal(true)
+      expect(image_record.primary?).to equal(true)
     end
     it 'allows page_number default to be overridded' do
       image_record.page_number = 1
       image_record.is_primary = false
-      expect(image_record.is_primary).to equal(false)
+      expect(image_record.primary?).to equal(false)
     end
   end
   context '#image_path' do
@@ -83,14 +83,14 @@ describe WaxIiif::ImageRecord do
   end
   context '#is_document' do
     it 'defaults to false' do
-      expect(image_record.is_document).to equal(false)
+      expect(image_record.document?).to equal(false)
     end
     it 'has_an_alias' do
-      expect(image_record.is_document?).to equal(false)
+      expect(image_record.document?).to equal(false)
     end
     it 'forces is_document to boolean' do
       image_record.is_document = 'banana'
-      expect(image_record.is_document).to equal(true)
+      expect(image_record.document?).to equal(true)
     end
   end
 end

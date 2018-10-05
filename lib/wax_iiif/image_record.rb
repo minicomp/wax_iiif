@@ -35,7 +35,7 @@ module WaxIiif
     #   @example {thumb: 150}
     def initialize(opts={})
       opts.each do |key, val|
-        self.send("#{key}=",val) if self.methods.include? "#{key}=".to_sym
+        self.send("#{key}=", val) if self.methods.include? "#{key}=".to_sym
       end
     end
 
@@ -53,9 +53,9 @@ module WaxIiif
       @path
     end
 
-    def path=(_path)
-      raise WaxIiif::Error::InvalidImageData, "Path is invalid: '#{_path}'" unless _path && File.exist?(_path)
-      @path = _path
+    def path=(path)
+      raise WaxIiif::Error::InvalidImageData, "Path is invalid: '#{path}'" unless path && File.exist?(path)
+      @path = path
     end
 
     # Is this image part of a document, or is it a standalone image (or image sequence)?
@@ -65,10 +65,9 @@ module WaxIiif
     #
     # @return [Bool]
     #
-    def is_document
-      return !!@is_document
+    def document?
+      !!@is_document
     end
-    alias :is_document? :is_document
 
     # The name of the section this image is contained in.
     # Currently used to id the canvas for this image.
@@ -100,7 +99,7 @@ module WaxIiif
     end
 
     def viewing_direction=(dir)
-      raise Error::InvalidViewingDirection unless WaxIiif.is_valid_viewing_direction(dir)
+      raise Error::InvalidViewingDirection unless WaxIiif.valid_viewing_direction?(dir)
       @viewing_direction = dir
     end
 
@@ -116,17 +115,13 @@ module WaxIiif
     #
     # @return [Bool]
     #
-    def is_primary
+    def primary?
       if @is_primary.nil?
         self.page_number == 1
       else
         @is_primary
       end
     end
-
-    alias :is_primary? :is_primary
-    alias :is_master :is_primary # Depriciated, but around for backwards compatibility
-
 
     # Set this image record as the master record for the sequence
     #
