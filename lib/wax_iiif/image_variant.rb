@@ -27,11 +27,9 @@ module WaxIiif
     def initialize(data, config, size = nil)
       @config = config
       # Validate input data
-      if data.id.nil? || data.id.to_s.empty?
-        raise WaxIiif::Error::InvalidImageData, 'Each image needs an ID'
-      elsif data.image_path.nil? || data.image_path.to_s.empty?
-        raise WaxIiif::Error::InvalidImageData, 'Each image needs an path.'
-      end
+
+      raise WaxIiif::Error::InvalidImageData, 'Each image needs an ID' if data.id.nil? || data.id.to_s.empty?
+      raise WaxIiif::Error::InvalidImageData, 'Each image needs an path.' if data.image_path.nil? || data.image_path.to_s.empty?
 
       # open image
       begin

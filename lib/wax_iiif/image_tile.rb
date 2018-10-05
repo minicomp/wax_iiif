@@ -22,7 +22,7 @@ module WaxIiif
 
     protected
 
-    def resize(_width=nil, _height=nil)
+    def resize(_width = nil, _height = nil)
       @image.combine_options do |img|
         img.crop "#{@tile[:width]}x#{@tile[:height]}+#{@tile[:x]}+#{@tile[:y]}"
         img.resize "#{@tile[:xSize]}x#{@tile[:ySize]}"

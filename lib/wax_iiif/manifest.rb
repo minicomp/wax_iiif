@@ -92,7 +92,7 @@ module WaxIiif
       opts.merge(
         '@id' => seq_id,
         '@type' => SEQUENCE_TYPE,
-        'canvases' => image_records.collect { |image_record| build_canvas(image_record) }
+        'canvases' => image_records.collect { |i| build_canvas(i) }
       )
     end
 

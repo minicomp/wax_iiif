@@ -16,7 +16,7 @@ module WaxIiif
     # @param [Integer] max_width The maximum width of the thumbnail
     # @param [Integer] max_height The maximum height of the thumbnail
     #
-    def initialize(data, config, width=nil)
+    def initialize(data, config, width = nil)
       @width = width || config.thumbnail_size
       super(data, config)
     end

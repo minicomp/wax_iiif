@@ -63,7 +63,7 @@ module WaxIiif
     #
     # @return [Void]
     #
-    def process_data(force_image_generation=false)
+    def process_data(force_image_generation = false)
       return nil if @data.nil? # do nothing without data.
 
       @manifests = []
@@ -94,7 +94,7 @@ module WaxIiif
       generate_collection
     end
 
-    def generate_collection(label='top')
+    def generate_collection(label = 'top')
       collection = Collection.new(label, @config)
       manifests.each { |m| collection.add_manifest(m) }
       collection.save
@@ -144,17 +144,32 @@ module WaxIiif
 
     #----------------------------------------------------------------
     def load_variants(path)
-      data = JSON.parse File.read(path)
-      id = data['@id']
-      w = data['width']
-      h = data['height']
-      thumb_size = data['sizes'].find { |a| a['width'] == config.thumbnail_size || a['height'] == config.thumbnail_size }
-      thumb_w = thumb_size['width']
-      thumb_h = thumb_size['height']
-      full_url = "#{id}/full/full/0/default.jpg"
+      data  = JSON.parse File.read(path)
+      id    = data['@id']
+      w     = data['width']
+      h     = data['height']
+
+      thumb_size = data['sizes'].find do |a|
+        same_width  = a['width']  == config.thumbnail_size
+        same_height = a['height'] == config.thumbnail_size
+        same_width || same_height
+      end
+
+      thumb_w   = thumb_size['width']
+      thumb_h   = thumb_size['height']
+      full_url  = "#{id}/full/full/0/default.jpg"
       thumb_url = "#{id}/full/#{thumb_w},/0/default.jpg"
-      full = FakeImageVariant.new(id, w, h, full_url, 'image/jpeg')
-      thumbnail = FakeImageVariant.new(id, thumb_w, thumb_h, thumb_url, 'image/jpeg')
+      full      = FakeImageVariant.new(id,
+                                       w,
+                                       h,
+                                       full_url,
+                                       'image/jpeg')
+      thumbnail = FakeImageVariant.new(id,
+                                       thumb_w,
+                                       thumb_h,
+                                       thumb_url,
+                                       'image/jpeg')
+
       { 'full' => full, 'thumbnail' => thumbnail }
     end
 
@@ -200,13 +215,13 @@ module WaxIiif
 
     def generate_image_json(data, config)
       filename = image_info_file_name(data)
-      info = ImageInfo.new(data.variants['full'].id, data.variants, config.tile_width, config.tile_scale_factors)
-
+      info = ImageInfo.new(data.variants['full'].id,
+                           data.variants,
+                           config.tile_width,
+                           config.tile_scale_factors)
       puts "writing #{filename}" if config.verbose?
       Pathname.new(Pathname.new(filename).dirname).mkpath
-      File.open(filename, 'w') do |file|
-        file.puts info.to_json
-      end
+      File.open(filename, 'w') { |file| file.puts info.to_json }
       info
     end
 

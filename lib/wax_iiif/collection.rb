@@ -10,7 +10,7 @@ module WaxIiif
     include BaseProperties
     attr_reader :collections, :manifests
 
-    def initialize(label, config, name='top')
+    def initialize(label, config, name = 'top')
       raise WaxIiif::Error::MissingCollectionName if label.nil? || label.empty?
       @config = config
       @manifests = []

@@ -2,18 +2,14 @@ AllCops:
   TargetRubyVersion: 2.4
   Exclude: ['spec/**/*']
 Metrics/LineLength:
-  IgnoredPatterns: ['raise', 'puts', '#']
+  IgnoredPatterns: ['raise', 'puts', '#', '@']
 Style/FrozenStringLiteralComment:
   Enabled: false
 Style/RedundantSelf:
   Enabled: false
-Metrics/AbcSize:
-  Enabled: false
 Metrics/MethodLength:
   Enabled: false
 Style/DoubleNegation:
-  Enabled: false
-Metrics/LineLength:
   Enabled: false
 Metrics/AbcSize:
   Enabled: false
@@ -22,10 +18,6 @@ Metrics/CyclomaticComplexity:
 Metrics/PerceivedComplexity:
   Enabled: false
 Metrics/ClassLength:
-  Enabled: false
-Layout/SpaceAroundEqualsInParameterDefault:
-  Enabled: false
-Style/GuardClause:
   Enabled: false
 Layout/EmptyLineAfterGuardClause:
   Enabled: false

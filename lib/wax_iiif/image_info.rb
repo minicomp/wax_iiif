@@ -9,7 +9,7 @@ module WaxIiif
     attr_accessor :tile_width
     attr_accessor :tile_scale_factors
 
-    def initialize(uri, variants, tile_width= nil, tile_scale_factors = nil)
+    def initialize(uri, variants, tile_width = nil, tile_scale_factors = nil)
       raise WaxIiif::Error::InvalidImageData, "No full variant provided:  variants: #{variants}" unless variants['full']
       raise WaxIiif::Error::InvalidImageData, "No thumbnail variant provided:  variants: #{variants}" unless variants['thumbnail']
       raise WaxIiif::Error::InvalidImageData, 'No URI was provided for this image!' if uri.nil?

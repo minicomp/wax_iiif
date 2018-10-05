@@ -14,7 +14,7 @@ module WaxIiif
       #
       # @return [Array<String>] The paths to the generated files
       #
-      def self.split(path, options={})
+      def self.split(path, options = {})
         output_dir = options.fetch(:output_dir, '.')
         verbose = options.fetch(:verbose, false)
         puts "processing #{path}" if verbose
