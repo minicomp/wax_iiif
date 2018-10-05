@@ -7,9 +7,6 @@ module WaxIiif
     # Class InvalidCSV indicates that there is something wrong with the provided CSV.
     class InvalidCSV < StandardError; end
 
-    # Class BadAmazonCredentials indicates that something was wrong with the Amazon login information.
-    class BadAmazonCredentials < StandardError; end
-
     # Class MissingCollectionName indicates that the collection provided did not have a label.
     class MissingCollectionName < StandardError; end
 

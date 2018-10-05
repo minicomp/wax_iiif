@@ -8,9 +8,6 @@ describe WaxIiif::Utilities::PdfSplitter do
       Dir.mktmpdir do |dir|
         results = WaxIiif::Utilities::PdfSplitter.split('./spec/data/test.pdf', output_dir: dir)
         expect(results.count).to eq(3)
-        results.each do |file|
-          File.delete(file)
-        end
       end
     end
   end

@@ -72,12 +72,12 @@ module WaxIiif
       save_to_disk(data)
       data['sequences'].each do |sequence|
         save_to_disk(sequence)
-        sequence['canvases'].each do |canvas|
-          save_to_disk(canvas)
-          canvas['images'].each do |annotation|
-            save_to_disk(annotation)
-          end
-        end
+        # sequence['canvases'].each do |canvas|
+        #   save_to_disk(canvas)
+        #   canvas['images'].each do |annotation|
+        #     save_to_disk(annotation)
+        #   end
+        # end
       end
       nil
     end

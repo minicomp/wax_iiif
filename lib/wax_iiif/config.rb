@@ -93,7 +93,6 @@ module WaxIiif
     # @option opts [String] :prefix ('') a prefix (read: subdirectory) for the generated URIs.
     # @option opts [Hash{String: String}] :variants
     def initialize(opts = {})
-      @upload_to_s3         = opts[:upload_to_s3]         || false
       @tile_width           = opts[:tile_width]           || DEFAULT_TILE_WIDTH
       @tile_scale_factors   = opts[:tile_scale_factors]   || DEFAULT_TILE_SCALE_FACTORS
       @image_directory_name = opts[:image_directory_name] || DEFAULT_IMAGE_DIRECTORY_NAME

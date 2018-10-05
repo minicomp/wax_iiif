@@ -24,7 +24,7 @@ module WaxIiif
     protected
 
     def resize(width)
-      @image.resize width
+      @image.resize(width || @width)
     end
   end
 end

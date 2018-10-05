@@ -48,7 +48,6 @@ module WaxIiif
     #
     def load(data)
       @data = [data].flatten # handle hashes and arrays of hashes
-
       # validate
       @data.each do |image_record|
         raise WaxIiif::Error::InvalidImageData, "Image record #{image_record.inspect} is not an ImageRecord" unless image_record.is_a? ImageRecord
