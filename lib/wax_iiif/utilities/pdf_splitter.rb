@@ -15,14 +15,14 @@ module WaxIiif
       # @return [Array<String>] The paths to the generated files
       #
       def self.split(path, options = {})
-        output_dir = options.fetch(:output_dir, '.')
-        verbose = options.fetch(:verbose, false)
+        output_dir  = options.fetch(:output_dir, '.')
+        verbose     = options.fetch(:verbose, false)
+
         puts "processing #{path}" if verbose
-        name = File.basename(path, File.extname(path))
 
+        name  = File.basename(path, File.extname(path))
         pages = []
-
-        pdf = MiniMagick::Image.open(path)
+        pdf   = MiniMagick::Image.open(path)
 
         pdf.pages.each_with_index do |page, index|
           FileUtils.mkdir_p output_dir unless output_dir == '.'
@@ -42,20 +42,7 @@ module WaxIiif
         end
         GC.start
 
-        image_records(pages)
-      end
-
-      def self.image_records(pdf_pages)
-        records = pdf_pages.map do |img|
-          basename = File.basename(img, '.*').to_s
-          id = basename.split('_pdf_page').first
-          pagenum = basename.split('_pdf_page').last
-          WaxIiif::ImageRecord.new(id: id, path: img, page_number: pagenum)
-        end
-
-        records.first.is_primary = true
-        records[1..-1].each { |r| r.is_primary = false }
-        records
+        pages
       end
     end
   end

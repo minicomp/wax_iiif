@@ -41,8 +41,10 @@ module WaxIiif
       # @param [String] id the unique key for the object
       # @param [String] page_number the page for this image.
       # @return [String] a path for the image
-      def generate_image_location(id, page_number)
-        generate_build_location "#{@config.image_directory_name}/#{id}-#{page_number}"
+      def generate_image_location(id, page_number = nil)
+        path = generate_build_location "#{@config.image_directory_name}/#{id}"
+        path += "-#{page_number}" unless page_number.nil?
+        path
       end
 
       def get_data_path(data)

@@ -89,8 +89,10 @@ module WaxIiif
     #
     # @return [<type>] <description>
     #
-    def generate_image_id(id, page_number)
-      "#{@config.base_url}#{@config.prefix}/#{@config.image_directory_name}/#{id}-#{page_number}"
+    def generate_image_id(id, page_number = nil)
+      path = "#{@config.base_url}#{@config.prefix}/#{@config.image_directory_name}/#{id}"
+      path += "-#{page_number}" unless page_number.nil?
+      path
     end
 
     protected

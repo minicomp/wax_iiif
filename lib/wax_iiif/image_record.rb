@@ -43,7 +43,7 @@ module WaxIiif
     #
     # @return [Number]
     def page_number
-      @page_number || 1
+      @page_number || nil
     end
 
     # The path to this image.
@@ -116,11 +116,7 @@ module WaxIiif
     # @return [Bool]
     #
     def primary?
-      if @is_primary.nil?
-        self.page_number == 1
-      else
-        @is_primary
-      end
+      @is_primary
     end
 
     # Set this image record as the master record for the sequence
