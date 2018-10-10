@@ -116,7 +116,7 @@ module WaxIiif
     # @return [Bool]
     #
     def primary?
-      @is_primary
+      @is_primary || false
     end
 
     # Set this image record as the master record for the sequence

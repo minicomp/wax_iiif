@@ -12,10 +12,6 @@ shared_examples 'base properties' do
   it 'has a valid @id' do
     expect(@object.id).to include WaxIiif::Config::DEFAULT_URL
   end
-  it 'encodes @ids when set' do
-    @object.id = 'http://www.example.com/a space'
-    expect(@object.id).to include '%20'
-  end
   it 'reveals the type' do
     expect(@object.type).to eq described_class::TYPE
   end

@@ -21,11 +21,6 @@ describe WaxIiif::Collection do
       expect{collection = WaxIiif::Collection.new('Test data', config, 'name')}.not_to raise_error
       expect(collection.id).to eq('http://0.0.0.0/collection/name.json')
     end
-    it 'initializes without issues when provided a name with a space in it' do
-      collection = nil
-      expect{collection = WaxIiif::Collection.new('Test data', config, 'name and space')}.not_to raise_error
-      expect(collection.id).to eq('http://0.0.0.0/collection/name%20and%20space.json')
-    end
     it 'fails if there is no label' do
       expect{collection = WaxIiif::Collection.new(nil, config)}.to raise_error(WaxIiif::Error::MissingCollectionName)
     end

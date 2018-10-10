@@ -43,20 +43,8 @@ describe WaxIiif::ImageRecord do
       image_record.page_number = 2
       expect(image_record.primary?).to equal(false)
     end
-    it 'defaults to true for first pages' do
-      image_record.page_number = 1
-      expect(image_record.primary?).to equal(true)
-    end
-    it 'has an alias' do
-      image_record.page_number = 1
-      expect(image_record.primary?).to equal(true)
-    end
     it 'forces is_primary to boolean' do
       image_record.is_primary = 'banana'
-      expect(image_record.primary?).to equal(true)
-    end
-    it 'uses page_number for intellegent defaults' do
-      image_record.page_number = 1
       expect(image_record.primary?).to equal(true)
     end
     it 'allows page_number default to be overridded' do

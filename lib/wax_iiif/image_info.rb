@@ -51,7 +51,7 @@ module WaxIiif
     def to_json
       obj = {
         '@context' => context,
-        '@id' => URI.escape(id),
+        '@id' => id,
         'protocol' => protocol,
         'width' => width,
         'height' => height,

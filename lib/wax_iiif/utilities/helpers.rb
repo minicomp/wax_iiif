@@ -24,7 +24,7 @@ module WaxIiif
       def generate_id(path)
         val =  "#{@config.base_url}#{@config.prefix}/#{path}"
         val += '.json' if @config.use_extensions
-        URI.escape(val)
+        val
       end
 
       # Given an id, generate a path on disk for that id, based on the config file
