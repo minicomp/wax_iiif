@@ -143,7 +143,7 @@ module WaxIiif
 
     #----------------------------------------------------------------
     def load_variants(path)
-      data  = JSON.parse File.read(path)
+      data  = JSON.parse escape_yaml(File.read(path))
       id    = data['@id']
       w     = data['width']
       h     = data['height']

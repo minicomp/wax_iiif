@@ -60,6 +60,10 @@ module WaxIiif
           file.puts JSON.pretty_generate(data)
         end
       end
+
+      def escape_yaml(str)
+        str.gsub(/\A---(.|\n)*?---/, '')
+      end
     end
   end
 end
