@@ -67,34 +67,39 @@ module WaxIiif
       return nil if @data.nil? # do nothing without data.
 
       @manifests = []
-      resources = {}
-      @data.each do |image_record|
-        # image generation
-        #
-        # It attempts to load the info files and skip generation - not currently working.
-        info_file = image_info_file_name(image_record)
-        if File.exist?(info_file) && !force_image_generation
-          puts "skipping #{info_file}" if @config.verbose?
-          image_record.variants = load_variants(info_file)
+      grouped_data = @data.group_by(&:parent_id)
+      parent_ids = grouped_data.keys
+
+      # image generation
+      parent_ids.each do |id|
+        resources = {}
+
+        manifest_data = grouped_data[id]
+        manifest_data.each do |image_record|
+          # It attempts to load the info files and skip generation - not currently working.
+          info_file = image_info_file_name(image_record)
+          if File.exist?(info_file) && !force_image_generation
+            puts "skipping #{info_file}" if @config.verbose?
+            image_record.variants = load_variants(info_file)
+          else
+            image_record.variants = generate_variants(image_record, @config)
+            generate_tiles(image_record, @config)
+            generate_image_json(image_record, @config)
+          end
+          # Save the image info for the manifest
+          resources[image_record.id] ||= []
+          resources[image_record.id].push image_record
+        end
+
+        # Generate the manifest(s)
+        if manifest_data.all?(&:document?)
+          manifests.push generate_manifest(manifest_data, @config)
         else
-          image_record.variants = generate_variants(image_record, @config)
-          generate_tiles(image_record, @config)
-          generate_image_json(image_record, @config)
-        end
-        # Save the image info for the manifest
-        resources[image_record.id] ||= []
-        resources[image_record.id].push image_record
-      end
-
-      # Generate the manifest(s)
-      if @data.all?(&:document?)
-        manifests.push generate_manifest(@data, @config)
-      else
-        resources.each do |_key, val|
-          manifests.push generate_manifest(val, @config)
+          resources.each do |_key, val|
+            manifests.push generate_manifest(val, @config)
+          end
         end
       end
-
       generate_collection
     end
 

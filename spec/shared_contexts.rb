@@ -64,7 +64,7 @@ RSpec.shared_context "fake data" do
     })
     @fake_manifest = '{
   "@context": "http://iiif.io/api/presentation/2/context.json",
-  "@id": "http://0.0.0.0/1/manifest.json",
+  "@id": "http://0.0.0.0/1/1/manifest.json",
   "@type": "sc:Manifest",
   "label": "test label",
   "attribution": "All rights reserved",

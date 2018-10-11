@@ -30,10 +30,11 @@ module WaxIiif
       end
 
       @primary = image_records.find(&:primary?)
+
       raise WaxIiif::Error::InvalidImageData, "No 'primary?' was found in the image data." unless @primary
       raise WaxIiif::Error::MultiplePrimaryImages, 'Multiple primary images were found in the image data.' unless image_records.count(&:primary?) == 1
 
-      self.id           = image_records.length > 1 ? "#{@primary.parent_id}/manifest" : "#{@primary.id}/manifest"
+      self.id           = image_records.length > 1 ? "#{@primary.parent_id}/manifest" : "#{@primary.parent_id}/#{@primary.id}/manifest"
       self.label        = @primary.label       || opts[:label] || ''
       self.description  = @primary.description || opts[:description]
       self.attribution  = @primary.attribution || opts.fetch(:attribution, nil)
