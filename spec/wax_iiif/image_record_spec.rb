@@ -40,7 +40,6 @@ describe WaxIiif::ImageRecord do
   end
   context '#is_primary' do
     it 'defaults to false' do
-      image_record.page_number = 2
       expect(image_record.primary?).to equal(false)
     end
     it 'forces is_primary to boolean' do
@@ -48,7 +47,6 @@ describe WaxIiif::ImageRecord do
       expect(image_record.primary?).to equal(true)
     end
     it 'allows page_number default to be overridded' do
-      image_record.page_number = 1
       image_record.is_primary = false
       expect(image_record.primary?).to equal(false)
     end

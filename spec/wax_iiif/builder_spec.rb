@@ -14,9 +14,9 @@ describe WaxIiif::Builder do
   # end
 
   let (:iiif) { WaxIiif::Builder.new() }
-  let (:test_object_0) {ImageRecord.new({'id' => 1, 'page_number' => 1})}
-  let (:test_object_1) {ImageRecord.new({'id' => 2, 'page_number' => 1})}
-  let (:test_object_2) {ImageRecord.new({'id' => 2, 'page_number' => 2})}
+  let (:test_object_0) {ImageRecord.new({'parent_id' => 1, 'id' => 1})}
+  let (:test_object_1) {ImageRecord.new({'parent_id' => 2, 'id' => 1})}
+  let (:test_object_2) {ImageRecord.new({'parent_id' => 2, 'id' => 2})}
   let (:data) {[test_object_0, test_object_1,test_object_2]}
 
   context 'When initializing' do
@@ -58,7 +58,6 @@ describe WaxIiif::Builder do
       @iiif.load(@fake_data)
       allow(@iiif).to receive(:generate_tiles) {nil}
       allow(@iiif).to receive(:generate_variants) {@fake_variants}
-
     end
     it 'does not fail with no data' do
       expect {iiif.process_data}.not_to raise_error
@@ -84,7 +83,7 @@ describe WaxIiif::Builder do
       @dir = Dir.mktmpdir
       @iiif = WaxIiif::Builder.new({output_dir: @dir, base_url: 'http://0.0.0.0', verbose: true, thumbnail_size: 120})
       @iiif.load(@fake_data)
-      @info_json = "#{@dir}/images/1-1/info.json"
+      @info_json = "#{@dir}/images/1/1/info.json"
       allow(@iiif).to receive(:generate_tiles) {nil}
       allow(@iiif).to receive(:generate_variants) {@fake_variants}
       @iiif.process_data

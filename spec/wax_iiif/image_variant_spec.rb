@@ -30,6 +30,7 @@ describe WaxIiif::ImageVariant do
       data = WaxIiif::ImageRecord.new({
         'path' => './spec/data/test.jpg',
         'id' => 1,
+        'parent_id' => 1,
         'page_number' => 1
       })
        config = WaxIiif::Config.new

@@ -30,10 +30,10 @@ module WaxIiif
       end
 
       @primary = image_records.find(&:primary?)
-      raise WaxIiif::Error::InvalidImageData, "No 'is_primary' was found in the image data." unless @primary
+      raise WaxIiif::Error::InvalidImageData, "No 'primary?' was found in the image data." unless @primary
       raise WaxIiif::Error::MultiplePrimaryImages, 'Multiple primary images were found in the image data.' unless image_records.count(&:primary?) == 1
 
-      self.id           = "#{@primary.id}/manifest"
+      self.id           = image_records.length > 1 ? "#{@primary.parent_id}/manifest" : "#{@primary.id}/manifest"
       self.label        = @primary.label       || opts[:label] || ''
       self.description  = @primary.description || opts[:description]
       self.attribution  = @primary.attribution || opts.fetch(:attribution, nil)
@@ -85,9 +85,8 @@ module WaxIiif
     protected
 
     #--------------------------------------------------------------------------
-    def build_sequence(image_records, opts = { name: DEFAULT_SEQUENCE_NAME })
-      name = opts.delete(:name)
-      seq_id = generate_id "#{@primary.id}/sequence/#{name}"
+    def build_sequence(image_records, opts = {})
+      seq_id = generate_id "#{@primary.parent_id}/sequence/#{@primary.id}"
 
       opts.merge(
         '@id' => seq_id,
@@ -98,7 +97,7 @@ module WaxIiif
 
     #--------------------------------------------------------------------------
     def build_canvas(data)
-      canvas_id = generate_id "#{data.id}/canvas/#{data.section}"
+      canvas_id = generate_id "#{data.parent_id}/canvas/#{data.id}"
 
       obj = {
         '@type' => CANVAS_TYPE,
@@ -120,7 +119,7 @@ module WaxIiif
 
     #--------------------------------------------------------------------------
     def build_image(data, canvas)
-      annotation_id = generate_id "#{data.id}/annotation/#{data.section}"
+      annotation_id = generate_id "#{data.parent_id}/annotation/#{data.id}"
       {
         '@type' => ANNOTATION_TYPE,
         '@id'   => annotation_id,

@@ -53,8 +53,8 @@ RSpec.shared_context "fake data" do
 }'
 
     @fake_data = ImageRecord.new({
-      "id" => 1,
-      "page_number" => "1",
+      "parent_id" => 1,
+      "id" => "1",
       "image_path" => "./spec/data/test.jpg",
       "is_primary" => true,
       "variants" => @fake_variants,
@@ -74,12 +74,12 @@ RSpec.shared_context "fake data" do
   "viewingHint": "individuals",
   "sequences": [
     {
-      "@id": "http://0.0.0.0/1/sequence/default.json",
+      "@id": "http://0.0.0.0/1/sequence/1.json",
       "@type": "sc:Sequence",
       "canvases": [
         {
           "@type": "sc:Canvas",
-          "@id": "http://0.0.0.0/1/canvas/front.json",
+          "@id": "http://0.0.0.0/1/canvas/1.json",
           "label": "front",
           "width": 2000,
           "height": 2400,
@@ -87,7 +87,7 @@ RSpec.shared_context "fake data" do
           "images": [
             {
               "@type": "oa:Annotation",
-              "@id": "http://0.0.0.0/1/annotation/front.json",
+              "@id": "http://0.0.0.0/1/annotation/1.json",
               "motivation": "sc:painting",
               "resource": {
                 "@id": "http://www.example.com/images/1/full/full/0/default.jpg",
@@ -101,7 +101,7 @@ RSpec.shared_context "fake data" do
                 "width": 1000,
                 "height": 1200
               },
-              "on": "http://0.0.0.0/1/canvas/front.json"
+              "on": "http://0.0.0.0/1/canvas/1.json"
             }
           ]
         }

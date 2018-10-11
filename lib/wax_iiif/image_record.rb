@@ -6,11 +6,12 @@ module WaxIiif
   # It has the concept of primary images, which are the first (or only) image
   # in the sequence.  This is the image where much of the top-level metadata is
   # taken from.  Each sequence can only have a single primary image, but that
-  # constraint in enforced
+  # constraint isnt enforced
   #
   # @author David Newbury <david.newbury@gmail.com>
   #
   class ImageRecord
+    attr_accessor :parent_id
     attr_accessor :id
     attr_accessor :label
     attr_accessor :description
@@ -21,13 +22,13 @@ module WaxIiif
     attr_accessor :logo
     attr_accessor :variants
 
-    attr_writer :page_number
     attr_writer :section
     attr_writer :section_label
     attr_writer :is_document
 
     # @param [Hash] opts
-    # @option opts [String] :id The primary ID for the object.
+    # @option opts [String] :id The parent object ID.
+    # @option opts [String] :id The primary ID for the image.
     # @option opts [String] :label The human-readable label for all grouped records
     # @option opts [String] :description A longer, human-readable description of the gropued records
     # @option opts [String] :logo A URL pointing to a logo of the institution
@@ -37,13 +38,6 @@ module WaxIiif
       opts.each do |key, val|
         self.send("#{key}=", val) if self.methods.include? "#{key}=".to_sym
       end
-    end
-
-    # The page number of this image.  Defaults to 1.
-    #
-    # @return [Number]
-    def page_number
-      @page_number || nil
     end
 
     # The path to this image.
@@ -56,17 +50,6 @@ module WaxIiif
     def path=(path)
       raise WaxIiif::Error::InvalidImageData, "Path is invalid: '#{path}'" unless path && File.exist?(path)
       @path = path
-    end
-
-    # Is this image part of a document, or is it a standalone image (or image sequence)?
-    #
-    # Currently, the only effects the page viewing hint for the image sequence.
-    # This will only have an effect on the primary image for this sequence.
-    #
-    # @return [Bool]
-    #
-    def document?
-      !!@is_document
     end
 
     # The name of the section this image is contained in.
@@ -103,6 +86,17 @@ module WaxIiif
       @viewing_direction = dir
     end
 
+    # Is this image part of a document, or is it a standalone image (or image sequence)?
+    #
+    # Currently, the only effects the page viewing hint for the image sequence.
+    # This will only have an effect on the primary image for this sequence.
+    #
+    # @return [Bool]
+    #
+    def document?
+      !!@is_document
+    end
+
     # Is this image the master image for its sequence?
     #
     # Each image sequence has a single image chosen as the primary image for
@@ -116,7 +110,7 @@ module WaxIiif
     # @return [Bool]
     #
     def primary?
-      @is_primary || false
+      !!@is_primary
     end
 
     # Set this image record as the master record for the sequence

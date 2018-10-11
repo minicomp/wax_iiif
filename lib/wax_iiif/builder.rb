@@ -52,6 +52,7 @@ module WaxIiif
       @data.each do |image_record|
         raise WaxIiif::Error::InvalidImageData, "Image record #{image_record.inspect} is not an ImageRecord" unless image_record.is_a? ImageRecord
         raise WaxIiif::Error::InvalidImageData, "Image record #{image_record.inspect} does not have an ID" if image_record.id.nil?
+        raise WaxIiif::Error::InvalidImageData, "Image record #{image_record.inspect} does not have a parent ID" if image_record.parent_id.nil?
       end
     end
 
@@ -85,9 +86,13 @@ module WaxIiif
         resources[image_record.id].push image_record
       end
 
-      # Generate the manifests
-      resources.each do |_key, val|
-        manifests.push generate_manifest(val, @config)
+      # Generate the manifest(s)
+      if @data.all?(&:document?)
+        manifests.push generate_manifest(@data, @config)
+      else
+        resources.each do |_key, val|
+          manifests.push generate_manifest(val, @config)
+        end
       end
 
       generate_collection
@@ -209,7 +214,7 @@ module WaxIiif
     end
 
     def image_info_file_name(data)
-      "#{generate_image_location(data.id, data.page_number)}/info.json"
+      "#{generate_image_location(data.parent_id, data.id)}/info.json"
     end
 
     def generate_image_json(data, config)
