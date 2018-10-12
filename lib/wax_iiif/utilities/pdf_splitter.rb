@@ -20,13 +20,14 @@ module WaxIiif
 
         puts "processing #{path}" if verbose
 
-        name  = File.basename(path, File.extname(path))
-        pages = []
-        pdf   = MiniMagick::Image.open(path)
+        name        = File.basename(path, File.extname(path))
+        pages       = []
+        pdf         = MiniMagick::Image.open(path)
+        max_digits  = pdf.pages.length.digits.length
 
         pdf.pages.each_with_index do |page, index|
           FileUtils.mkdir_p output_dir unless output_dir == '.'
-          page_file_name = "#{output_dir}/#{name}_pdf_page#{index}.jpg"
+          page_file_name = "#{output_dir}/#{name}_pdf_page#{index.to_s.rjust(max_digits, '0')}.jpg"
 
           MiniMagick::Tool::Convert.new do |convert|
             convert.density('300')
