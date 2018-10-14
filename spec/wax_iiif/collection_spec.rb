@@ -35,7 +35,7 @@ describe WaxIiif::Collection do
   context 'data init' do
     include_context('fake data')
     let(:collection) {WaxIiif::Collection.new('Test Data', config, 'name')}
-    let(:manifest) {WaxIiif::Manifest.new([@fake_data],config)}
+    let(:manifest) {WaxIiif::Manifest.new(@fake_data[0,2], config)}
     it 'has a label' do
       expect(collection.label).to eq 'Test Data'
     end
@@ -56,7 +56,7 @@ describe WaxIiif::Collection do
 
     it 'generates correct JSON' do
       collection.add_manifest(manifest)
-      expect(collection.to_json).to eq @fake_collection
+      expect(collection.to_json.delete(" \t\r\n")).to eq @fake_collection
     end
 
   end

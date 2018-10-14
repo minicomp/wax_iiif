@@ -52,7 +52,6 @@ module WaxIiif
       @data.each do |image_record|
         raise WaxIiif::Error::InvalidImageData, "Image record #{image_record.inspect} is not an ImageRecord" unless image_record.is_a? ImageRecord
         raise WaxIiif::Error::InvalidImageData, "Image record #{image_record.inspect} does not have an ID" if image_record.id.nil?
-        raise WaxIiif::Error::InvalidImageData, "Image record #{image_record.inspect} does not have a parent ID" if image_record.parent_id.nil?
       end
     end
 
@@ -67,15 +66,13 @@ module WaxIiif
       return nil if @data.nil? # do nothing without data.
 
       @manifests = []
-      grouped_data = @data.group_by(&:parent_id)
-      parent_ids = grouped_data.keys
+      @data.group_by(&:manifest_id).each do |key, value|
+        resources     = {}
+        manifest_id   = key
+        image_records = value
 
-      # image generation
-      parent_ids.each do |id|
-        resources = {}
-
-        manifest_data = grouped_data[id]
-        manifest_data.each do |image_record|
+        # genrate the images
+        image_records.each do |image_record|
           # It attempts to load the info files and skip generation - not currently working.
           info_file = image_info_file_name(image_record)
           if File.exist?(info_file) && !force_image_generation
@@ -91,16 +88,17 @@ module WaxIiif
           resources[image_record.id].push image_record
         end
 
-        # Generate the manifest(s)
-        if manifest_data.all?(&:document?)
-          manifests.push generate_manifest(manifest_data, @config)
-        else
+        # Generate the manifest
+        if manifest_id.to_s.empty?
           resources.each do |_key, val|
             manifests.push generate_manifest(val, @config)
           end
+        else
+          manifests.push generate_manifest(image_records, @config)
         end
       end
-      generate_collection
+
+      # generate_collection
     end
 
     def generate_collection(label = 'top')
@@ -115,7 +113,7 @@ module WaxIiif
     def create_build_directories
       root_dir = generate_build_location('')
       Dir.mkdir root_dir unless Dir.exist?(root_dir)
-      img_dir = generate_image_location('', '').split('/')[0...-1].join('/')
+      img_dir = generate_image_location('').split('/')[0...-1].join('/')
       Dir.mkdir img_dir unless Dir.exist?(img_dir)
     end
 
@@ -219,7 +217,7 @@ module WaxIiif
     end
 
     def image_info_file_name(data)
-      "#{generate_image_location(data.parent_id, data.id)}/info.json"
+      "#{generate_image_location(data.id)}/info.json"
     end
 
     def generate_image_json(data, config)

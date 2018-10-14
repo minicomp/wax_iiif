@@ -13,7 +13,7 @@ describe WaxIiif::Manifest do
   end
 
   let (:config) {WaxIiif::Config.new()}
-  let (:m) {WaxIiif::Manifest.new([@fake_data],config)}
+  let (:m) {WaxIiif::Manifest.new(@fake_data[0,2], config)}
   let (:output) {JSON.parse(m.to_json)}
 
   it 'initializes without an error' do
@@ -42,8 +42,8 @@ describe WaxIiif::Manifest do
     end
     it "throws an error unless there's a primary image" do
       data = @fake_data.clone
-      data.is_primary = false
-      expect{WaxIiif::Manifest.new([data],config)}.to raise_error(WaxIiif::Error::InvalidImageData)
+      data.map { |d| d.is_primary = false }
+      expect{WaxIiif::Manifest.new(data, config)}.to raise_error(WaxIiif::Error::InvalidImageData)
     end
     it 'throws an error if there are two primary images' do
       data1 = WaxIiif::ImageRecord.new({is_primary: true})
@@ -85,7 +85,7 @@ describe WaxIiif::Manifest do
     end
     it 'accepts valid viewing directions' do
       dir = 'right-to-left'
-      new_data = @fake_data
+      new_data = @fake_data.first
       new_data.viewing_direction = dir
       m = WaxIiif::Manifest.new([new_data],config)
       o = JSON.parse(m.to_json)

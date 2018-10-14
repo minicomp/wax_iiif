@@ -42,11 +42,11 @@ module WaxIiif
       resize(width)
       @image.format 'jpg'
 
-      @id   = generate_image_id(data.parent_id, data.id)
+      @id   = generate_image_id(data.id)
       @uri  = "#{id}#{filestring}/default.jpg"
 
       # Create the on-disk version of the file
-      path = "#{generate_image_location(data.parent_id, data.id)}#{filestring}"
+      path = "#{@id}#{filestring}"
       FileUtils.mkdir_p path
       filename = "#{path}/default.jpg"
       @image.write filename unless File.exist? filename
@@ -89,8 +89,8 @@ module WaxIiif
     #
     # @return [<type>] <description>
     #
-    def generate_image_id(parent_id, id)
-      "#{@config.base_url}#{@config.prefix}/#{@config.image_directory_name}/#{parent_id}/#{id}"
+    def generate_image_id(id)
+      "#{@config.base_url}#{@config.prefix}/#{@config.image_directory_name}/#{id}"
     end
 
     protected

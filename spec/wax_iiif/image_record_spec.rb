@@ -61,10 +61,10 @@ describe WaxIiif::ImageRecord do
   end
   context '#section' do
     it 'uses the default for the name' do
-      expect(image_record.section).to eq DEFAULT_CANVAS_LABEL
+      expect(image_record.section).to eq WaxIiif::DEFAULT_CANVAS_LABEL
     end
     it 'uses the default for the label' do
-      expect(image_record.section_label).to eq DEFAULT_CANVAS_LABEL
+      expect(image_record.section_label).to eq WaxIiif::DEFAULT_CANVAS_LABEL
     end
   end
   context '#is_document' do

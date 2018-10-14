@@ -3,20 +3,11 @@ require 'ostruct'
 require 'fileutils'
 
 describe WaxIiif::Builder do
-  # before(:each) do
-  #   fake_aws_bucket = OpenStruct.new({
-  #     'exists?' => 'true'
-  #   })
-  #   unless ENV['TEST_INTERNET_CONNECTIVITY']
-  #     allow(Aws::S3::Bucket).to receive(:new) {nil}
-  #     allow(Aws::S3::Bucket).to receive(:exists?) {true}
-  #   end
-  # end
-
   let (:iiif) { WaxIiif::Builder.new() }
-  let (:test_object_0) {ImageRecord.new({'parent_id' => 1, 'id' => 1})}
-  let (:test_object_1) {ImageRecord.new({'parent_id' => 2, 'id' => 1})}
-  let (:test_object_2) {ImageRecord.new({'parent_id' => 2, 'id' => 2})}
+  let (:test_object_0) { WaxIiif::ImageRecord.new({'id' => 'img1' }) }
+  let (:test_object_1) { WaxIiif::ImageRecord.new({'id' => 'img2', 'manifest_id' => 'm1'}) }
+  let (:test_object_2) { WaxIiif::ImageRecord.new({'id' => 'img3', 'manifest_id' => 'm1' }) }
+  let (:test_object_2) { WaxIiif::ImageRecord.new({'id' => 'img4', 'manifest_id' => 'm2' }) }
   let (:data) {[test_object_0, test_object_1,test_object_2]}
 
   context 'When initializing' do
@@ -69,8 +60,9 @@ describe WaxIiif::Builder do
 
     it ' passes the Temporary Manifest Check' do
       @iiif.process_data
-      expect(@iiif.manifests.count).to eq 1
-      expect(@iiif.manifests.first.to_json).to eq @fake_manifest
+      expect(@iiif.manifests.count).to eq 2
+      expect(@iiif.manifests.first.to_json.delete(" \t\r\n")).to eq @fake_manifest_1
+      expect(@iiif.manifests.last.to_json.delete(" \t\r\n")).to eq @fake_manifest_3
     end
   end
 
@@ -83,7 +75,7 @@ describe WaxIiif::Builder do
       @dir = Dir.mktmpdir
       @iiif = WaxIiif::Builder.new({output_dir: @dir, base_url: 'http://0.0.0.0', verbose: true, thumbnail_size: 120})
       @iiif.load(@fake_data)
-      @info_json = "#{@dir}/images/1/1/info.json"
+      @info_json = "#{@dir}/images/1/info.json"
       allow(@iiif).to receive(:generate_tiles) {nil}
       allow(@iiif).to receive(:generate_variants) {@fake_variants}
       @iiif.process_data
@@ -100,20 +92,20 @@ describe WaxIiif::Builder do
    it 'does try to generate images if that file is missing' do
       File.delete(@info_json)
       @iiif.process_data
-      expect(@iiif).to have_received(:generate_tiles).twice
-      expect(@iiif).to have_received(:generate_variants).twice
+      expect(@iiif).to have_received(:generate_tiles).exactly(4).times
+      expect(@iiif).to have_received(:generate_variants).exactly(4).times
     end
 
     it 'does not try to generate images if that file is present' do
       @iiif.process_data
-      expect(@iiif).to have_received(:generate_tiles).once
-      expect(@iiif).to have_received(:generate_variants).once
+      expect(@iiif).to have_received(:generate_tiles).exactly(3).times
+      expect(@iiif).to have_received(:generate_variants).exactly(3).times
     end
 
     it 'generates the correct manifest anyway' do
       @iiif.process_data
-      expect(@iiif.manifests.count).to eq 1
-      expect(@iiif.manifests.first.to_json).to eq @fake_manifest
+      expect(@iiif.manifests.count).to eq 2
+      expect(@iiif.manifests.first.to_json.delete(" \t\r\n")).to eq @fake_manifest_1
     end
 
   end
