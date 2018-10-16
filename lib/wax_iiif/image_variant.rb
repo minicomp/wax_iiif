@@ -26,7 +26,6 @@ module WaxIiif
     #
     def initialize(data, config, size = nil)
       @config = config
-      # Validate input data
 
       raise WaxIiif::Error::InvalidImageData, 'Each image needs an ID' if data.id.nil? || data.id.to_s.empty?
       raise WaxIiif::Error::InvalidImageData, 'Each image needs an path.' if data.image_path.nil? || data.image_path.to_s.empty?
@@ -40,13 +39,13 @@ module WaxIiif
 
       width = size.nil? ? width : size
       resize(width)
-      @image.format 'jpg'
 
+      @image.format 'jpg'
       @id   = generate_image_id(data.id)
       @uri  = "#{id}#{filestring}/default.jpg"
 
       # Create the on-disk version of the file
-      path = "#{@id}#{filestring}"
+      path = "#{@id}#{filestring}".gsub(@config.base_url, @config.output_dir)
       FileUtils.mkdir_p path
       filename = "#{path}/default.jpg"
       @image.write filename unless File.exist? filename

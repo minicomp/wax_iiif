@@ -98,7 +98,7 @@ module WaxIiif
         end
       end
 
-      # generate_collection
+      generate_collection
     end
 
     def generate_collection(label = 'top')
