@@ -61,6 +61,11 @@ module WaxIiif
       JSON.pretty_generate obj
     end
 
+    # @return [String]
+    def base_id
+      @primary.manifest_id || @primary.id
+    end
+
     #
     # Save the manifest and all sub-resources to disk, using the
     # paths contained withing the WaxIiif::Config object passed at
