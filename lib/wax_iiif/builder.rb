@@ -101,8 +101,8 @@ module WaxIiif
       generate_collection
     end
 
-    def generate_collection(label = 'top')
-      collection = Collection.new(label, @config)
+    def generate_collection
+      collection = Collection.new(@config)
       manifests.each { |m| collection.add_manifest(m) }
       collection.save
     end
@@ -140,9 +140,9 @@ module WaxIiif
 
       @data = vals.collect do |data|
         {
-          'image_path' => data[0],
-          'id'       => data[1],
-          'label'    => data[2]
+          'image_path'  => data[0],
+          'id'          => data[1],
+          'label'       => data[2]
         }
       end
     end

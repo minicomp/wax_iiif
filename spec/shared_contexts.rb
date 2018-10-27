@@ -12,7 +12,7 @@ RSpec.shared_context "fake data" do
   include_context("fake variants")
   before(:example) do
 
-    @fake_collection = '{"@context":"http://iiif.io/api/presentation/2/context.json","@id":"http://0.0.0.0/collection/name.json","@type":"sc:Collection","label":"TestData","manifests":[{"@id":"http://0.0.0.0/1/manifest.json","@type":"sc:Manifest","label":"testlabel"}]}'
+    @fake_collection = '{"@context":"http://iiif.io/api/presentation/2/context.json","@id":"http://0.0.0.0/collection/test.json","@type":"sc:Collection","label":"test","manifests":[{"@id":"http://0.0.0.0/1/manifest.json","@type":"sc:Manifest","label":"testlabel"}]}'
 
     @fake_data = [ WaxIiif::ImageRecord.new({
       "manifest_id" => 1,
