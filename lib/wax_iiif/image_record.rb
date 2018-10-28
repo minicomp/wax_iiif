@@ -11,7 +11,7 @@ module WaxIiif
   # @author David Newbury <david.newbury@gmail.com>
   #
   class ImageRecord
-    attr_accessor :parent_id
+    attr_accessor :manifest_id
     attr_accessor :id
     attr_accessor :label
     attr_accessor :description
@@ -27,13 +27,13 @@ module WaxIiif
     attr_writer :is_document
 
     # @param [Hash] opts
-    # @option opts [String] :id The parent object ID.
-    # @option opts [String] :id The primary ID for the image.
+
     # @option opts [String] :label The human-readable label for all grouped records
     # @option opts [String] :description A longer, human-readable description of the gropued records
     # @option opts [String] :logo A URL pointing to a logo of the institution
     # @option opts [Hash]   :variants A hash of derivative names and sizes
-    #   @example {thumb: 150}
+    #
+    # @example {thumb: 150}
     def initialize(opts = {})
       opts.each do |key, val|
         self.send("#{key}=", val) if self.methods.include? "#{key}=".to_sym

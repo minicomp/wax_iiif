@@ -80,7 +80,7 @@ module WaxIiif
       obj
     end
 
-    # Save the JSON representation of this record to disk and to S3 (if enabled).
+    # Save the JSON representation of this record to disk
     #
     # @return [Void]
     def save

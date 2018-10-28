@@ -51,7 +51,7 @@ describe WaxIiif::ImageInfo do
     end
 
     it 'generates correct JSON' do
-      expect(@info.to_json).to eq(@fake_image_info)
+      expect(@info.to_json.delete(" \t\r\n")).to eq(@fake_image_info)
     end
   end
 end

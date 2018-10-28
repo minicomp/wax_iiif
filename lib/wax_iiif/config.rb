@@ -17,59 +17,64 @@ module WaxIiif
     DEFAULT_TILE_SCALE_FACTORS = [1, 2, 4, 8].freeze
     # @return [Number] The default thumbnail size in pixels
     DEFAULT_THUMBNAIL_SIZE = 250
+    # @return [String] The default collection label ~> `collection/{LABEL}.json`
+    DEFAULT_COLLECTION_LABEL = 'top'.freeze
 
-    #
     # @!attribute [r] base_url
-    #   @return [String] The protocol, domain, and port used for generating URIs.
+    # @return [String] The protocol, domain, and port used for generating URIs.
     #   Defaults to {WaxIiif::Config::DEFAULT_URL}
     attr_reader :base_url
     #
     # @!attribute [r] use_extensions
-    #   @return [Boolean] Should generated IDs and files have a .json extension?
+    # @return [Boolean] Should generated IDs and files have a .json extension?
     #   Defaults to true
     attr_reader :use_extensions
     #
     # @!attribute [r] output_dir
-    #   @return [String] The directory on the local file system where the output
+    # @return [String] The directory on the local file system where the output
     #     files should be saved
     #     Defaults to {WaxIiif::Config::DEFAULT_OUTPUT_DIRECTORY}
     attr_reader :output_dir
     #
     # @!attribute [r] prefix
-    #   @return [String] A prefix to be appended between the base URI and the id.
+    # @return [String] A prefix to be appended between the base URI and the id.
     #     Can be blank,and it will automatically prepend a slash if one is not
     #     provided.
     #   Defaults to ''
     attr_reader :prefix
     #
     # @!attribute [r] image_directory_name
-    #   @return [String] The name of the directory/prefix where image files will be
+    # @return [String] The name of the directory/prefix where image files will be
     #   located.
     #   Defaults to WaxIiif::Config::DEFAULT_IMAGE_DIRECTORY_NAME
     attr_reader :image_directory_name
     #
     # @!attribute [r] tile_width
-    #   @return [Number] The width (and height) of each individual tile.
+    # @return [Number] The width (and height) of each individual tile.
     #   Defaults to WaxIiif::Config::DEFAULT_TILE_WIDTH
     attr_reader :tile_width
     #
     # @!attribute [r] tile
-    #   @return [Array<Number>] An array of tile ratios to be uploaded.
+    # @return [Array<Number>] An array of tile ratios to be uploaded.
     #   Defaults to WaxIiif::Config::DEFAULT_TILE_SCALE_FACTORS
     attr_reader :tile_scale_factors
     #
     # @!attribute [r] variants
-    #   @return [Hash] A Hash of key/value pairs.  Each key should be the name of a variant,
-    #     each value the maximum pixel dimension of the longest side.
+    # @return [Hash] A Hash of key/value pairs.  Each key should be the name of a variant,
+    #   each value the maximum pixel dimension of the longest side.
     #   Defaults to {}
     attr_reader :variants
 
     # @!attribute [r] thumbnail_size
-    #   @return [Number] The max width in pixels for a thumbnail image
+    # @return [Number] The max width in pixels for a thumbnail image
     attr_reader :thumbnail_size
 
+    # @!attribute [r] collection_label
+    # @return [String] the label for the collection
+    attr_reader :collection_label
+
     # @!attribute [r] verbose
-    #   @return [Bool] Should the program log information to the console?
+    # @return [Bool] Should the program log information to the console?
     attr_reader :verbose
     alias verbose? verbose
 
@@ -97,6 +102,7 @@ module WaxIiif
       @tile_scale_factors   = opts[:tile_scale_factors]   || DEFAULT_TILE_SCALE_FACTORS
       @image_directory_name = opts[:image_directory_name] || DEFAULT_IMAGE_DIRECTORY_NAME
       @base_url             = opts[:base_url]             || DEFAULT_URL
+      @collection_label     = opts[:collection_label]     || DEFAULT_COLLECTION_LABEL
       @use_extensions       = opts.fetch(:use_extensions, true) ## true
       @output_dir           = opts[:output_dir]           || DEFAULT_OUTPUT_DIRECTORY
       @variants             = opts[:variants]             || {}

@@ -34,13 +34,15 @@ module WaxIiif
       raise WaxIiif::Error::InvalidImageData, "No 'primary?' was found in the image data." unless @primary
       raise WaxIiif::Error::MultiplePrimaryImages, 'Multiple primary images were found in the image data.' unless image_records.count(&:primary?) == 1
 
-      self.id           = image_records.length > 1 ? "#{@primary.parent_id}/manifest" : "#{@primary.parent_id}/#{@primary.id}/manifest"
-      self.label        = @primary.label       || opts[:label] || ''
-      self.description  = @primary.description || opts[:description]
-      self.attribution  = @primary.attribution || opts.fetch(:attribution, nil)
-      self.logo         = @primary.logo        || opts.fetch(:logo, nil)
-      self.license      = @primary.license     || opts.fetch(:license, nil)
-      self.metadata     = @primary.metadata    || opts.fetch(:metadata, nil)
+      id = @primary.manifest_id.nil? ? "#{@primary.id}/manifest" : "#{@primary.manifest_id}/manifest"
+
+      @id           = generate_id(id)
+      @label        = @primary.label       || opts[:label] || ''
+      @description  = @primary.description || opts[:description]
+      @attribution  = @primary.attribution || opts.fetch(:attribution, nil)
+      @logo         = @primary.logo        || opts.fetch(:logo, nil)
+      @license      = @primary.license     || opts.fetch(:license, nil)
+      @metadata     = @primary.metadata    || opts.fetch(:metadata, nil)
 
       @sequences = build_sequence(image_records)
     end
@@ -57,6 +59,11 @@ module WaxIiif
       obj['sequences']        = [@sequences]
 
       JSON.pretty_generate obj
+    end
+
+    # @return [String]
+    def base_id
+      @primary.manifest_id || @primary.id
     end
 
     #
@@ -87,7 +94,7 @@ module WaxIiif
 
     #--------------------------------------------------------------------------
     def build_sequence(image_records, opts = {})
-      seq_id = generate_id "#{@primary.parent_id}/sequence/#{@primary.id}"
+      seq_id = generate_id "sequence/#{@primary.id}"
 
       opts.merge(
         '@id' => seq_id,
@@ -98,7 +105,7 @@ module WaxIiif
 
     #--------------------------------------------------------------------------
     def build_canvas(data)
-      canvas_id = generate_id "#{data.parent_id}/canvas/#{data.id}"
+      canvas_id = generate_id "canvas/#{data.id}"
 
       obj = {
         '@type' => CANVAS_TYPE,
@@ -120,7 +127,7 @@ module WaxIiif
 
     #--------------------------------------------------------------------------
     def build_image(data, canvas)
-      annotation_id = generate_id "#{data.parent_id}/annotation/#{data.id}"
+      annotation_id = generate_id "annotation/#{data.id}"
       {
         '@type' => ANNOTATION_TYPE,
         '@id'   => annotation_id,

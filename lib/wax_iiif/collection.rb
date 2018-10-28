@@ -8,15 +8,17 @@ module WaxIiif
     # @return [String] The IIIF Type for collections
     TYPE = 'sc:Collection'.freeze
     include BaseProperties
-    attr_reader :collections, :manifests
+    attr_reader :collections, :manifests, :label
 
-    def initialize(label, config, name = 'top')
-      raise WaxIiif::Error::MissingCollectionName if label.nil? || label.empty?
-      @config = config
-      @manifests = []
-      @collections = []
-      self.label = label
-      self.id = "collection/#{name}"
+    def initialize(config)
+      raise WaxIiif::Error::MissingCollectionName if config.collection_label.to_s.empty?
+
+      @config       = config
+      @manifests    = []
+      @collections  = []
+      @label        = @config.collection_label
+
+      self.id       = "collection/#{@label}"
     end
 
     def add_collection(collection)
