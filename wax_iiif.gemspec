@@ -3,7 +3,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |spec|
   spec.name          = 'wax_iiif'
-  spec.version       = '0.0.3'
+  spec.version       = '0.1.0'
   spec.authors       = ['Marii Nyrop', 'David Newbury']
   spec.email         = ['m.nyrop@columbia.edu']
   spec.summary       = 'Minimal iiif level 0 generator'
