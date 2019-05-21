@@ -15,10 +15,10 @@ module WaxIiif
       raise WaxIiif::Error::InvalidImageData, 'No URI was provided for this image!' if uri.nil?
 
       @id = uri
-      full = variants['full']
+      @full = variants['full']
       @variants = variants
-      @width = full.width
-      @height = full.height
+      @width = @full.width
+      @height = @full.height
       @tile_width = tile_width
       @tile_scale_factors = tile_scale_factors
     end

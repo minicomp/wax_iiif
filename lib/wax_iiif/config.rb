@@ -109,7 +109,7 @@ module WaxIiif
       @thumbnail_size       = opts[:thumbnail_size]       || DEFAULT_THUMBNAIL_SIZE
       @verbose              = opts.fetch(:verbose, false) ## false
       @prefix               = opts[:prefix] || ''
-      @prefix = "/#{@prefix}" if @prefix.length.positive? && @prefix[0] != '/'
+      @prefix               = "/#{@prefix}" if @prefix.length.positive? && @prefix[0] != '/'
     end
 
     # Compare two configuration files

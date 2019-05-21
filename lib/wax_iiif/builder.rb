@@ -1,5 +1,8 @@
 require_relative 'utilities'
+
 require 'pathname'
+require 'progress_bar'
+require 'progress_bar/core_ext/enumerable_with_progress'
 
 module WaxIiif
   # Builder class
@@ -66,7 +69,7 @@ module WaxIiif
       return nil if @data.nil? # do nothing without data.
 
       @manifests = []
-      @data.group_by(&:manifest_id).each do |key, value|
+      @data.group_by(&:manifest_id).each_with_progress do |key, value|
         resources     = {}
         manifest_id   = key
         image_records = value

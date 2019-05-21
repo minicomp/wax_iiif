@@ -34,9 +34,7 @@ module WaxIiif
       raise WaxIiif::Error::InvalidImageData, "No 'primary?' was found in the image data." unless @primary
       raise WaxIiif::Error::MultiplePrimaryImages, 'Multiple primary images were found in the image data.' unless image_records.count(&:primary?) == 1
 
-      id = @primary.manifest_id.nil? ? "#{@primary.id}/manifest" : "#{@primary.manifest_id}/manifest"
-
-      @id           = generate_id(id)
+      @id           = generate_id "#{base_id}/manifest"
       @label        = @primary.label       || opts[:label] || ''
       @description  = @primary.description || opts[:description]
       @attribution  = @primary.attribution || opts.fetch(:attribution, nil)
@@ -57,6 +55,8 @@ module WaxIiif
       obj['viewingDirection'] = @primary.viewing_direction
       obj['viewingHint']      = @primary.document? ? 'paged' : 'individuals'
       obj['sequences']        = [@sequences]
+
+      @primary.variants.each { |k, v| obj[k] = v.uri }
 
       JSON.pretty_generate obj
     end
