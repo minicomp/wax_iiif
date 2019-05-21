@@ -16,6 +16,8 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ['lib']
 
+  spec.metadata['yard.run'] = 'yri'
+
   spec.add_development_dependency 'dotenv', '~> 2.5'
   spec.add_development_dependency 'rspec', '~> 3.8'
   spec.add_development_dependency 'simplecov', '~> 0.16'
