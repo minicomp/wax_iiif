@@ -6,6 +6,15 @@ addons:
   apt:
     packages:
       - ghostscript
+env:
+  global:
+    - CC_TEST_REPORTER_ID=95d25db384a24567e6f1f65409b38a31f79855ab6fa0ae5eb170434638e2897a
+before_script:
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
 script:
   - bundle exec rubocop
   - bundle exec rspec
+after_script:
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT

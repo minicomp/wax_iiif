@@ -1,5 +1,5 @@
 # wax_iiif
-[![Gem Version](https://badge.fury.io/rb/wax_iiif.svg)](https://badge.fury.io/rb/wax_iiif) [![Build Status](https://travis-ci.org/mnyrop/wax_iiif.svg?branch=master)](https://travis-ci.org/mnyrop/wax_iiif) [![Maintainability](https://api.codeclimate.com/v1/badges/3eb2fcf5ae47e7b6d686/maintainability)](https://codeclimate.com/github/mnyrop/wax_iiif/maintainability)
+[![Gem Version](https://badge.fury.io/rb/wax_iiif.svg)](https://badge.fury.io/rb/wax_iiif) [![Build Status](https://travis-ci.org/minicomp/wax_iiif.svg?branch=master)](https://travis-ci.org/minicomp/wax_iiif) [![Maintainability](https://api.codeclimate.com/v1/badges/3eb2fcf5ae47e7b6d686/maintainability)](https://codeclimate.com/github/minicomp/wax_iiif/maintainability)
 
 ![License](https://img.shields.io/badge/license-MIT-green.svg) [![docs](http://img.shields.io/badge/docs-rdoc.info-blue.svg)](https://www.rubydoc.info/github/minicomp/wax_iiif/)  
 
