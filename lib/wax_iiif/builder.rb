@@ -2,7 +2,6 @@ require_relative 'utilities'
 
 require 'pathname'
 require 'progress_bar'
-require 'progress_bar/core_ext/enumerable_with_progress'
 
 module WaxIiif
   # Builder class
@@ -61,35 +60,20 @@ module WaxIiif
     #
     # Take the loaded data and generate all the files.
     #
-    # @param [Boolean] force_image_generation Generate images even if they already exist
-    #
     # @return [Void]
     #
-    def process_data(force_image_generation = false)
+    def process_data
       return nil if @data.nil? # do nothing without data.
 
       @manifests = []
-      @data.group_by(&:manifest_id).each_with_progress do |key, value|
-        resources     = {}
+
+      data = @data.group_by(&:manifest_id)
+      bar = ProgressBar.new(data.length)
+
+      data.each do |key, value|
         manifest_id   = key
         image_records = value
-
-        # genrate the images
-        image_records.each do |image_record|
-          # It attempts to load the info files and skip generation - not currently working.
-          info_file = image_info_file_name(image_record)
-          if File.exist?(info_file) && !force_image_generation
-            puts "skipping #{info_file}" if @config.verbose?
-            image_record.variants = load_variants(info_file)
-          else
-            image_record.variants = generate_variants(image_record, @config)
-            generate_tiles(image_record, @config)
-            generate_image_json(image_record, @config)
-          end
-          # Save the image info for the manifest
-          resources[image_record.id] ||= []
-          resources[image_record.id].push image_record
-        end
+        resources     = process_image_records(image_records)
 
         # Generate the manifest
         if manifest_id.to_s.empty?
@@ -99,6 +83,9 @@ module WaxIiif
         else
           manifests.push generate_manifest(image_records, @config)
         end
+
+        bar.increment!
+        bar.write
       end
 
       generate_collection
@@ -250,6 +237,29 @@ module WaxIiif
         obj[key] = ImageVariant.new(data, config, image_size)
       end
       obj
+    end
+
+    def process_image_records(image_records)
+      resources = {}
+
+      # genrate the images
+      image_records.each do |image_record|
+        # It attempts to load the info files and skip generation - not currently working.
+        info_file = image_info_file_name(image_record)
+        if File.exist?(info_file)
+          puts "skipping #{info_file}" if @config.verbose?
+          image_record.variants = load_variants(info_file)
+        else
+          image_record.variants = generate_variants(image_record, @config)
+          generate_tiles(image_record, @config)
+          generate_image_json(image_record, @config)
+        end
+        # Save the image info for the manifest
+        resources[image_record.id] ||= []
+        resources[image_record.id].push image_record
+      end
+
+      resources
     end
   end
 end
