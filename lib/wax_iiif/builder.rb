@@ -61,6 +61,8 @@ module WaxIiif
     #
     # Take the loaded data and generate all the files.
     #
+    # @param [Integer] thread_count Thread count to use for processing images concurrently. Defaults to number of processors.
+    #
     # @return [Void]
     #
     def process_data(thread_count: Parallel.processor_count)
