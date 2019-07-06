@@ -242,7 +242,7 @@ module WaxIiif
       obj
     end
 
-    def process_image_records(image_records, thread_count: 0)
+    def process_image_records(image_records, thread_count: Parallel.processor_count)
       resources = {}
 
       # genrate the images
