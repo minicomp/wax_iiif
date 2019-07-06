@@ -76,7 +76,8 @@ module WaxIiif
       data.each do |key, value|
         manifest_id   = key
         image_records = value
-        resources     = process_image_records(image_records, thread_count: thread_count)
+        resources     = process_image_records(image_records,
+                                              thread_count: thread_count)
 
         # Generate the manifest
         if manifest_id.to_s.empty?
@@ -242,7 +243,8 @@ module WaxIiif
       obj
     end
 
-    def process_image_records(image_records, thread_count: Parallel.processor_count)
+    def process_image_records(image_records,
+                              thread_count: Parallel.processor_count)
       resources = {}
 
       # genrate the images
