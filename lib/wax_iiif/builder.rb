@@ -2,6 +2,7 @@ require_relative 'utilities'
 
 require 'pathname'
 require 'progress_bar'
+require 'parallel'
 
 module WaxIiif
   # Builder class
@@ -60,9 +61,11 @@ module WaxIiif
     #
     # Take the loaded data and generate all the files.
     #
+    # @param [Integer] thread_count Thread count to use for processing images concurrently. Defaults to number of processors.
+    #
     # @return [Void]
     #
-    def process_data
+    def process_data(thread_count: Parallel.processor_count)
       return nil if @data.nil? # do nothing without data.
 
       @manifests = []
@@ -73,7 +76,8 @@ module WaxIiif
       data.each do |key, value|
         manifest_id   = key
         image_records = value
-        resources     = process_image_records(image_records)
+        resources     = process_image_records(image_records,
+                                              thread_count: thread_count)
 
         # Generate the manifest
         if manifest_id.to_s.empty?
@@ -239,11 +243,12 @@ module WaxIiif
       obj
     end
 
-    def process_image_records(image_records)
+    def process_image_records(image_records,
+                              thread_count: Parallel.processor_count)
       resources = {}
 
       # genrate the images
-      image_records.each do |image_record|
+      Parallel.each(image_records, in_threads: thread_count) do |image_record|
         # It attempts to load the info files and skip generation - not currently working.
         info_file = image_info_file_name(image_record)
         if File.exist?(info_file)
