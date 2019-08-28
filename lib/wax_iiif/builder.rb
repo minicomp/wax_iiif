@@ -132,13 +132,7 @@ module WaxIiif
       # remove optional header
       vals.shift if vals[0][0] == HEADER_VAL
 
-      @data = vals.collect do |data|
-        {
-          'image_path'  => data[0],
-          'id'          => data[1],
-          'label'       => data[2]
-        }
-      end
+      @data = vals.collect { |d| { 'image_path' => d[0], 'id' => d[1], 'label' => d[2] } }
     end
 
     protected

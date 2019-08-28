@@ -48,7 +48,7 @@ module WaxIiif
     #
     # @return [String] the JSON representation of this image
     #
-    def to_json
+    def to_json(*_args)
       obj = {
         '@context' => context,
         '@id' => id,

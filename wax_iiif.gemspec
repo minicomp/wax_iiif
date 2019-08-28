@@ -5,7 +5,7 @@ Gem::Specification.new do |spec|
   spec.name          = 'wax_iiif'
   spec.version       = '0.2.0'
   spec.authors       = ['Marii Nyrop', 'David Newbury']
-  spec.email         = ['m.nyrop@columbia.edu']
+  spec.email         = ['marii@nyu.edu']
   spec.summary       = 'Minimal IIIF level 0 generator'
   spec.description   = 'Minimal IIIF level 0 generator for use with minicomp/wax'
   spec.homepage      = 'https://github.com/minicomp/wax_iiif'

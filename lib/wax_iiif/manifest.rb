@@ -48,7 +48,7 @@ module WaxIiif
     #
     # @return [String]  the JSON-LD representation of the manifest as a string.
     #
-    def to_json
+    def to_json(*_args)
       obj = base_properties
 
       obj['thumbnail']        = @primary.variants['thumbnail'].uri
@@ -106,10 +106,9 @@ module WaxIiif
     #--------------------------------------------------------------------------
     def build_canvas(data)
       canvas_id = generate_id "canvas/#{data.id}"
-
       obj = {
         '@type' => CANVAS_TYPE,
-        '@id'   => canvas_id,
+        '@id' => canvas_id,
         'label' => data.section_label,
         'width' => data.variants['full'].width.floor,
         'height' => data.variants['full'].height.floor,
@@ -130,7 +129,7 @@ module WaxIiif
       annotation_id = generate_id "annotation/#{data.id}"
       {
         '@type' => ANNOTATION_TYPE,
-        '@id'   => annotation_id,
+        '@id' => annotation_id,
         'motivation' => MOTIVATION,
         'resource' => {
           '@id' => data.variants['full'].uri,

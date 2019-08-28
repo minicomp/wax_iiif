@@ -36,7 +36,7 @@ module WaxIiif
     #
     # @return [String] The JSON representation as a string
     #
-    def to_json
+    def to_json(*_args)
       obj = base_properties
       obj['collections'] = collect_object(collections) unless collections.empty?
       obj['manifests'] = collect_object(manifests) unless manifests.empty?
