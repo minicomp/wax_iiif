@@ -72,6 +72,7 @@ module WaxIiif
 
       data = @data.group_by(&:manifest_id)
       bar = ProgressBar.new(data.length)
+      bar.write
 
       data.each do |key, value|
         manifest_id   = key
