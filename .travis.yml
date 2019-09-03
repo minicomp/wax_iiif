@@ -6,7 +6,6 @@ rvm:
 addons:
   apt:
     packages:
-      - imagemagick
       - ghostscript
 env:
   global:
