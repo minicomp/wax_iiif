@@ -66,6 +66,8 @@ module WaxIiif
     # @return [Void]
     #
     def process_data(thread_count: Parallel.processor_count)
+      puts Rainbow("Running on #{thread_count} threads.").blue
+
       return nil if @data.nil? # do nothing without data.
 
       @manifests = []
