@@ -1,5 +1,6 @@
 require 'csv'
 require 'json'
+require 'rainbow'
 
 require_relative 'wax_iiif/errors'
 require_relative 'wax_iiif/base_properties'

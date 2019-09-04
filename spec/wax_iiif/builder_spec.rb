@@ -45,7 +45,7 @@ describe WaxIiif::Builder do
     include_context('fake data')
 
     before(:example) do
-      @iiif = WaxIiif::Builder.new({base_url: 'http://0.0.0.0', verbose: true, thumbnail_size: 120})
+      @iiif = WaxIiif::Builder.new({base_url: 'http://0.0.0.0', verbose: false, thumbnail_size: 120})
       @iiif.load(@fake_data)
       allow(@iiif).to receive(:generate_tiles) {nil}
       allow(@iiif).to receive(:generate_variants) {@fake_variants}
@@ -73,7 +73,7 @@ describe WaxIiif::Builder do
 
     before(:example) do
       @dir = Dir.mktmpdir
-      @iiif = WaxIiif::Builder.new({output_dir: @dir, base_url: 'http://0.0.0.0', verbose: true, thumbnail_size: 120})
+      @iiif = WaxIiif::Builder.new({output_dir: @dir, base_url: 'http://0.0.0.0', verbose: false, thumbnail_size: 120})
       @iiif.load(@fake_data)
       @info_json = "#{@dir}/images/1/info.json"
       allow(@iiif).to receive(:generate_tiles) {nil}
