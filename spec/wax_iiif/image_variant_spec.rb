@@ -34,18 +34,18 @@ describe WaxIiif::ImageVariant do
       @img = WaxIiif::ImageVariant.new(data, config, 100)
     end
 
-    # it 'has a uri' do
-    #   expect(@img.uri).to eq("#{@img.generate_image_id(1)}/full/100,/0/default.jpg")
-    # end
-    # it 'has an id' do
-    #   expect(@img.id).to eq(@img.generate_image_id(1))
-    # end
-    # it 'has a width' do
-    #   expect(@img.width).to eq(100)
-    # end
-    # it 'has a mime type' do
-    #   expect(@img.mime_type).to eq('image/jpeg')
-    # end
+    it 'has a uri' do
+      expect(@img.uri).to eq("#{@img.generate_image_id(1)}/full/100,/0/default.jpg")
+    end
+    it 'has an id' do
+      expect(@img.id).to eq(@img.generate_image_id(1))
+    end
+    it 'has a width' do
+      expect(@img.width).to eq(100)
+    end
+    it 'has a mime type' do
+      expect(@img.mime_type).to eq('image/jpeg')
+    end
   end
 
   context 'Full Image' do
@@ -58,9 +58,9 @@ describe WaxIiif::ImageVariant do
        config = WaxIiif::Config.new
        @img = WaxIiif::FullImage.new(data, config)
     end
-    # it 'has the default filestring' do
-    #   expect(@img.uri).to include 'full/full'
-    # end
+    it 'has the default filestring' do
+      expect(@img.uri).to include 'full/full'
+    end
 
   end
 end
