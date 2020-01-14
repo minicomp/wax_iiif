@@ -1,5 +1,9 @@
 # wax_iiif
-[![Gem Version](https://badge.fury.io/rb/wax_iiif.svg)](https://badge.fury.io/rb/wax_iiif) [![Build Status](https://travis-ci.org/minicomp/wax_iiif.svg?branch=master)](https://travis-ci.org/minicomp/wax_iiif) [![Maintainability](https://api.codeclimate.com/v1/badges/a7d79a1b819cef81eb11/maintainability)](https://codeclimate.com/github/minicomp/wax_iiif/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/a7d79a1b819cef81eb11/test_coverage)](https://codeclimate.com/github/minicomp/wax_iiif/test_coverage) [![Libraries.io dependency status for GitHub repo](https://img.shields.io/librariesio/github/minicomp/wax_iiif)](https://libraries.io/github/minicomp/wax_iiif)
+[![Gem Version](https://badge.fury.io/rb/wax_iiif.svg)](https://badge.fury.io/rb/wax_iiif)
+[![Build Status](https://travis-ci.org/minicomp/wax_iiif.svg?branch=master)](https://travis-ci.org/minicomp/wax_iiif)
+[![Depfu](https://badges.depfu.com/badges/d7edf5b001221b2a44f3a87d0b9b2d2e/overview.svg)](https://depfu.com/github/minicomp/wax_iiif?project_id=10549)
+[![Maintainability](https://api.codeclimate.com/v1/badges/a7d79a1b819cef81eb11/maintainability)](https://codeclimate.com/github/minicomp/wax_iiif/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/a7d79a1b819cef81eb11/test_coverage)](https://codeclimate.com/github/minicomp/wax_iiif/test_coverage)
 
 ![License](https://img.shields.io/badge/license-MIT-green.svg) [![docs](http://img.shields.io/badge/docs-rdoc.info-blue.svg)](https://www.rubydoc.info/github/minicomp/wax_iiif/)  
 
