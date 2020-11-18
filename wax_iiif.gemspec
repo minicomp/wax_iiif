@@ -23,6 +23,6 @@ Gem::Specification.new do |spec|
 
   spec.add_runtime_dependency 'mini_magick', '~> 4.9'
   spec.add_runtime_dependency 'parallel', '~> 1.17'
-  spec.add_runtime_dependency 'progress_bar', '~> 1.3'
+  spec.add_runtime_dependency 'progress_bar', '1.3.3'
   spec.add_runtime_dependency 'rainbow', '~> 3.0'
 end
