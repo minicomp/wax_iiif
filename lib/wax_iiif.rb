@@ -2,6 +2,12 @@ require 'csv'
 require 'json'
 require 'rainbow'
 
+begin
+  require 'vips'
+rescue LoadError
+  raise WaxIiif::Error::MissingRequirements, "Wax now uses Libvips to create derivatives instead of ImageMagick!\nPlease install Libvips using the instructions at https://libvips.github.io/libvips/install.html."
+end
+
 require_relative 'wax_iiif/errors'
 require_relative 'wax_iiif/base_properties'
 require_relative 'wax_iiif/image_record'

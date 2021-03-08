@@ -1,4 +1,4 @@
-require 'mini_magick'
+# require 'mini_magick'
 require 'fileutils'
 
 module WaxIiif
@@ -24,7 +24,7 @@ module WaxIiif
     protected
 
     def resize(width)
-      @image.resize(width || @width)
+      @image = @image.thumbnail_image(width || @width, height: 10000000)
     end
   end
 end

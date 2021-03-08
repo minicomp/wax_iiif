@@ -1,4 +1,4 @@
-require 'mini_magick'
+# require 'mini_magick'
 require 'fileutils'
 
 module WaxIiif
@@ -23,10 +23,8 @@ module WaxIiif
     protected
 
     def resize(_width = nil, _height = nil)
-      @image.combine_options do |img|
-        img.crop "#{@tile[:width]}x#{@tile[:height]}+#{@tile[:x]}+#{@tile[:y]}"
-        img.resize "#{@tile[:xSize]}x#{@tile[:ySize]}"
-      end
+      @image = @image.crop @tile[:x], @tile[:y], @tile[:width], @tile[:height]
+      @image = @image.thumbnail_image(@tile[:xSize], { height: @tile[:ySize] })
     end
 
     def region

@@ -9,25 +9,11 @@
 
 This fork is *mostly* a copy of the [iiif_s3 gem](https://github.com/cmoa/iiif_s3) with all the s3 dependencies and functionality removed. It creates level 0 IIIF derivatives for static exhibition sites with [Minicomp/Wax](https://github.com/minicomp/wax/) via [Wax_Tasks](https://github.com/minicomp/wax_tasks/).
 
+## Prerequisites
+
+This gem assumes that you have LibVips installed. If you need to install it, follow the instructions here: https://libvips.github.io/libvips/install.html.
+
 ## Installation
-
-This library assumes that you have ImageMagick installed. If you need to install it, follow the instructions:
-
-on OSX, `brew install imagemagick ` should be sufficient.
-
-If you have issues with TIFF files, try
-
-```shell
-
-brew update
-brew reinstall --with-libtiff --ignore-dependencies imagemagick
-
-```
-
-If you plan to work with PDFs, you should also have a copy of GhostScript installed.
-
-on OSX, `brew install gs`
-
 
 
 Add this line to your application's Gemfile:

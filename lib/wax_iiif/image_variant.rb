@@ -1,4 +1,4 @@
-require 'mini_magick'
+# require 'mini_magick'
 require 'fileutils'
 require_relative 'utilities'
 
@@ -10,7 +10,7 @@ module WaxIiif
   #
   class ImageVariant
     include Utilities::Helpers
-    include MiniMagick
+    include Vips
 
     # Initializing an ImageVariant will create the actual image file
     # on the file system.
@@ -30,17 +30,11 @@ module WaxIiif
       raise WaxIiif::Error::InvalidImageData, 'Each image needs an ID' if data.id.nil? || data.id.to_s.empty?
       raise WaxIiif::Error::InvalidImageData, 'Each image needs an path.' if data.image_path.nil? || data.image_path.to_s.empty?
 
-      # open image
-      begin
-        @image = Image.open(data.image_path)
-      rescue MiniMagick::Invalid => e
-        raise WaxIiif::Error::InvalidImageData, "Cannot read this image file: #{data.image_path}. #{e}"
-      end
+      @image = Image.new_from_file data.image_path
 
       width = size.nil? ? width : size
       resize(width)
 
-      @image.format 'jpg'
       @id   = generate_image_id(data.id)
       @uri  = "#{id}#{filestring}/default.jpg"
 
@@ -48,7 +42,7 @@ module WaxIiif
       path = "#{@id}#{filestring}".gsub(@config.base_url, @config.output_dir)
       FileUtils.mkdir_p path
       filename = "#{path}/default.jpg"
-      @image.write filename unless File.exist? filename
+      @image.jpegsave filename unless File.exist? filename
     end
 
     # @!attribute [r] uri
@@ -78,7 +72,7 @@ module WaxIiif
     # @return [String] the MIME Content-Type (typically 'image/jpeg')
     #
     def mime_type
-      @image.mime_type
+      @image.get 'vips-loader'
     end
 
     # Generate a URI for an image
@@ -99,7 +93,7 @@ module WaxIiif
     end
 
     def resize(width)
-      @image.resize width
+      @image = @image.thumbnail_image width, height: 10000000
     end
 
     def filestring

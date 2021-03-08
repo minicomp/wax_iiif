@@ -1,4 +1,5 @@
-require 'mini_magick'
+require 'pdf-reader'
+require 'vips'
 
 module WaxIiif
   module Utilities
@@ -16,30 +17,20 @@ module WaxIiif
       def self.split(path, options = {})
         puts "processing #{path}" if options.fetch(:verbose, false)
 
-        name        = File.basename(path, File.extname(path))
+        name        = File.basename path, File.extname(path)
         output_dir  = "#{options.fetch(:output_dir, '.')}/#{name}"
-        pages       = []
-        pdf         = MiniMagick::Image.open(path)
-        max_digits  = pdf.pages.length.digits.length
+        n_pages     = PDF::Reader.new(path).page_count
+        max_digits  = n_pages.digits.length
 
-        pdf.pages.each_with_index do |page, index|
-          FileUtils.mkdir_p output_dir
-          page_file_name = "#{output_dir}/#{index.to_s.rjust(max_digits, '0')}.jpg"
+        FileUtils.mkdir_p output_dir
 
-          MiniMagick::Tool::Convert.new do |convert|
-            convert.density('300')
-            convert.units('PixelsPerInch')
-            convert << page.path
-            convert.quality('80')
-            convert.colorspace('sRGB')
-            convert.interlace('none')
-            convert.flatten
-            convert << page_file_name
-          end
-          pages.push(page_file_name)
+        pages = (0...n_pages).map do |i|
+          image = Vips::Image.new_from_file(path, page: i)
+          file  = "#{output_dir}/#{i.to_s.rjust(max_digits, '0')}.jpg"
+          image.write_to_file file
+          file
         end
         GC.start
-
         pages
       end
     end
