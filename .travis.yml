@@ -3,10 +3,6 @@ rvm:
   - 2.4
   - 2.5
   - 2.6
-addons:
-  apt:
-    packages:
-      - ghostscript
 env:
   global:
     - SKIP_EXPENSIVE_TESTS=true
@@ -16,7 +12,6 @@ before_script:
   - chmod +x ./cc-test-reporter
   - ./cc-test-reporter before-build
 script:
-  - bundle exec rubocop
   - bundle exec rspec
 after_script:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
