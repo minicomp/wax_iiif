@@ -3,6 +3,13 @@ require 'json'
 require 'rainbow'
 
 require_relative 'wax_iiif/errors'
+
+begin
+  require 'vips'
+rescue LoadError
+  raise WaxIiif::Error::MissingRequirements, "Wax now uses Libvips to create derivatives instead of ImageMagick!\nPlease install Libvips using the instructions at https://libvips.github.io/libvips/install.html."
+end
+
 require_relative 'wax_iiif/base_properties'
 require_relative 'wax_iiif/image_record'
 require_relative 'wax_iiif/builder'
@@ -16,11 +23,7 @@ require_relative 'wax_iiif/full_image'
 require_relative 'wax_iiif/image_info'
 require_relative 'wax_iiif/utilities'
 
-begin
-  require 'vips'
-rescue LoadError
-  raise WaxIiif::Error::MissingRequirements, "Wax now uses Libvips to create derivatives instead of ImageMagick!\nPlease install Libvips using the instructions at https://libvips.github.io/libvips/install.html."
-end
+
 
 # Module WaxIiif is a tool for generating IIIF resources from a set of files.
 # It's designed to support the IIIF level 0 profile, and generates entirely static files.
