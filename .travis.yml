@@ -1,13 +1,16 @@
-dist: bionic
 language: ruby
 rvm:
   - 2.4
   - 2.5
+  - 2.7
   - 2.6
 env:
   global:
     - SKIP_EXPENSIVE_TESTS=true
     - CC_TEST_REPORTER_ID=95d25db384a24567e6f1f65409b38a31f79855ab6fa0ae5eb170434638e2897a
+before_install:
+  - sudo apt-get update
+  - sudo apt-get -y install libvips libvips-dev
 before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
