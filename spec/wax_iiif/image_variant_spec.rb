@@ -43,9 +43,6 @@ describe WaxIiif::ImageVariant do
     it 'has a width' do
       expect(@img.width).to eq(100)
     end
-    it 'has a mime type' do
-      expect(@img.mime_type).to eq('image/jpeg')
-    end
   end
 
   context 'Full Image' do

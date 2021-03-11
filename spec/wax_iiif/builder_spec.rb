@@ -1,6 +1,7 @@
 require 'spec_helper'
 require 'ostruct'
 require 'fileutils'
+require 'tmpdir'
 
 describe WaxIiif::Builder do
   let (:iiif) { WaxIiif::Builder.new() }

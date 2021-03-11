@@ -30,7 +30,12 @@ module WaxIiif
       raise WaxIiif::Error::InvalidImageData, 'Each image needs an ID' if data.id.nil? || data.id.to_s.empty?
       raise WaxIiif::Error::InvalidImageData, 'Each image needs an path.' if data.image_path.nil? || data.image_path.to_s.empty?
 
-      @image = Image.new_from_file data.image_path
+      begin
+        source = Vips::Source.new_from_file data.image_path
+        @image = Vips::Image.new_from_source source, "fail=true"
+      rescue
+        raise WaxIiif::Error::InvalidImageData, "Could not load #{data.image_path}. Is it a valid image file?"
+      end
 
       width = size.nil? ? width : size
       resize(width)
