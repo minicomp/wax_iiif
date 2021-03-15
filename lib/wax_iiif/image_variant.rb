@@ -48,6 +48,7 @@ module WaxIiif
       FileUtils.mkdir_p path
       filename = "#{path}/default.jpg"
       @image.jpegsave filename unless File.exist? filename
+      GC.start
     end
 
     # @!attribute [r] uri
