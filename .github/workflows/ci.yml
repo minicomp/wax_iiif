@@ -8,9 +8,12 @@ on:
       - '**/README.md'
 
 jobs:
-   deploy:
+   rspec:
     runs-on: ubuntu-latest
     steps:
+    - name: Change ImageMagick policy to allow pdf->png conversion.
+      run: |
+        sudo sed -i 's/^.*policy.*coder.*none.*PDF.*//' /etc/ImageMagick-6/policy.xml
       - uses: actions/checkout@v2
         with:
           fetch-depth: 1
