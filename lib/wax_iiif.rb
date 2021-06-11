@@ -22,6 +22,7 @@ require_relative 'wax_iiif/image_tile'
 require_relative 'wax_iiif/full_image'
 require_relative 'wax_iiif/image_info'
 require_relative 'wax_iiif/utilities'
+require_relative 'wax_iiif/version'
 
 
 
