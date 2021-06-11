@@ -14,13 +14,13 @@ jobs:
     - name: Change ImageMagick policy to allow pdf->png conversion.
       run: |
         sudo sed -i 's/^.*policy.*coder.*none.*PDF.*//' /etc/ImageMagick-6/policy.xml
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 1
-      - uses: ruby/setup-ruby@v1
-        with:
-          bundler-cache: true
-      - name: install
-        run: gem install bundler && bundle
-      - name: test
-        run: bundle exec rspec
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 1
+    - uses: ruby/setup-ruby@v1
+      with:
+        bundler-cache: true
+    - name: install
+      run: gem install bundler && bundle
+    - name: test
+      run: bundle exec rspec
