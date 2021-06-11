@@ -33,6 +33,7 @@ module WaxIiif
       # open image
       begin
         @image = Image.open(data.image_path)
+        @image_permissions = File.stat(data.image_path).mode & 0o7777
       rescue MiniMagick::Invalid => e
         raise WaxIiif::Error::InvalidImageData, "Cannot read this image file: #{data.image_path}. #{e}"
       end
@@ -48,7 +49,10 @@ module WaxIiif
       path = "#{@id}#{filestring}".gsub(@config.base_url, @config.output_dir)
       FileUtils.mkdir_p path
       filename = "#{path}/default.jpg"
-      @image.write filename unless File.exist? filename
+      return if File.exist? filename
+
+      @image.write filename
+      FileUtils.chmod(@image_permissions, filename)
     end
 
     # @!attribute [r] uri
