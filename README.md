@@ -11,6 +11,8 @@ This fork is *mostly* a copy of the [iiif_s3 gem](https://github.com/cmoa/iiif_s
 
 This gem assumes that you have LibVips installed. If you need to install it, follow the instructions here: https://libvips.github.io/libvips/install.html.
 
+> **Note!** The LibVips dependency is new as of `v0.3.0`! Versions `<0.3.0` use ImageMagick and Ghostscript instead.
+
 ## Installation
 
 
