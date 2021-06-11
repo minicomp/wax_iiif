@@ -1,0 +1,24 @@
+name: ci:test
+on:
+  pull_request:
+    paths-ignore:
+      - '**/README.md'
+  push:
+    paths-ignore:
+      - '**/README.md'
+
+jobs:
+   rspec:
+    runs-on: ubuntu-latest
+    - name: install libvips
+      run: sudo apt-get update && sudo apt-get install -y libvips libvips-dev
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 1
+    - uses: ruby/setup-ruby@v1
+      with:
+        bundler-cache: true
+    - name: install
+      run: gem install bundler && bundle
+    - name: test
+      run: bundle exec rspec
