@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.homepage      = 'https://github.com/minicomp/wax_iiif'
   spec.license       = 'MIT'
 
-  spec.required_ruby_version  = '>= 2.4'
+  spec.required_ruby_version  = '>= 3.0'
   spec.files                  = `git ls-files -z`.split("\x0")
   spec.executables            = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
   spec.test_files             = spec.files.grep(%r{^(test|spec|features)/})
@@ -18,13 +18,12 @@ Gem::Specification.new do |spec|
 
   spec.requirements << 'libvips'
 
-  spec.add_development_dependency 'dotenv', '~> 2.7'
-  spec.add_development_dependency 'rspec', '~> 3.8'
-  spec.add_development_dependency 'simplecov', '~> 0.16'
+  spec.add_development_dependency 'dotenv'
+  spec.add_development_dependency 'rspec'
+  spec.add_development_dependency 'simplecov'
 
-  spec.add_runtime_dependency 'ruby-vips', '~> 2.1'
-  spec.add_runtime_dependency 'parallel', '~> 1.17'
-  spec.add_runtime_dependency 'pdf-reader', '~> 2.4'
-  spec.add_runtime_dependency 'progress_bar', '~> 1.3'
-  spec.add_runtime_dependency 'rainbow', '~> 3.0'
+  spec.add_runtime_dependency 'ruby-vips'
+  spec.add_runtime_dependency 'parallel'
+  spec.add_runtime_dependency 'pdf-reader'
+  spec.add_runtime_dependency 'rainbow'
 end

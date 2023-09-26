@@ -45,6 +45,10 @@ module WaxIiif
       @sequences = build_sequence(image_records)
     end
 
+    def path 
+      @id.gsub(@config.base_url, @config.output_dir)
+    end
+
     #
     # @return [String]  the JSON-LD representation of the manifest as a string.
     #

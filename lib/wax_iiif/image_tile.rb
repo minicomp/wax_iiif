@@ -25,7 +25,7 @@ module WaxIiif
     def resize(_width = nil, _height = nil)
       return if @tile[:width] == 0
       @image = @image.crop @tile[:x], @tile[:y], @tile[:width], @tile[:height]
-      @image = @image.thumbnail_image(@tile[:xSize], { height: @tile[:ySize] })
+      @image = @image.thumbnail_image @tile[:xSize], height: @tile[:ySize]
     end
 
     def region

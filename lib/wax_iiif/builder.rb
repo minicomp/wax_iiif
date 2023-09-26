@@ -1,7 +1,6 @@
 require_relative 'utilities'
 
 require 'pathname'
-require 'progress_bar'
 require 'parallel'
 
 module WaxIiif
@@ -65,35 +64,27 @@ module WaxIiif
     #
     # @return [Void]
     #
-    def process_data(thread_count: Parallel.processor_count)
-      puts Rainbow("Running on #{thread_count} threads.").blue
-
+    def process_data
       return nil if @data.nil? # do nothing without data.
 
-      @manifests = []
-
       data = @data.group_by(&:manifest_id)
-      bar = ProgressBar.new(data.length)
-      bar.write
 
-      data.each do |key, value|
+      @manifests = Parallel.map(data, in_threads: Parallel.processor_count, progress: { format: Rainbow("\t⏵ %e %B %c/%u %P% Complete").skyblue, length: 80 }) do |key, value|
         manifest_id   = key
         image_records = value
-        resources     = process_image_records(image_records,
-                                              thread_count: thread_count)
+        resources     = process_image_records(image_records)
+        results       = []
 
         # Generate the manifest
         if manifest_id.to_s.empty?
           resources.each do |_key, val|
-            manifests.push generate_manifest(val, @config)
+            results.push generate_manifest(val, @config)
           end
         else
-          manifests.push generate_manifest(image_records, @config)
+          results.push generate_manifest(image_records, @config)
         end
-
-        bar.increment!
-        bar.write
-      end
+        results
+      end.flatten
 
       generate_collection
     end
@@ -102,6 +93,12 @@ module WaxIiif
       collection = Collection.new(@config)
       manifests.each { |m| collection.add_manifest(m) }
       collection.save
+    end
+
+    def results
+      results = {}
+      manifests.each { |manifest| results[manifest.base_id] = manifest.path }
+      results
     end
 
     # Creates the required directories for exporting to the file system.
@@ -240,12 +237,11 @@ module WaxIiif
       obj
     end
 
-    def process_image_records(image_records,
-                              thread_count: Parallel.processor_count)
+    def process_image_records(image_records)
       resources = {}
 
       # genrate the images
-      Parallel.each(image_records, in_threads: thread_count) do |image_record|
+      image_records.each do |image_record|
         # It attempts to load the info files and skip generation - not currently working.
         info_file = image_info_file_name(image_record)
         if File.exist?(info_file)
@@ -260,7 +256,6 @@ module WaxIiif
         resources[image_record.id] ||= []
         resources[image_record.id].push image_record
       end
-
       resources
     end
   end

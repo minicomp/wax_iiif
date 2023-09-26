@@ -52,6 +52,7 @@ module WaxIiif
       @path = path
     end
 
+
     # The name of the section this image is contained in.
     # Currently used to id the canvas for this image.
     #
