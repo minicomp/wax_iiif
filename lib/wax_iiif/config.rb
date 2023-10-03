@@ -19,6 +19,8 @@ module WaxIiif
     DEFAULT_THUMBNAIL_SIZE = 250
     # @return [String] The default collection label ~> `collection/{LABEL}.json`
     DEFAULT_COLLECTION_LABEL = 'top'.freeze
+    # @return [Number] The default max height and width in pixels
+    DEFAULT_MAX_CANVAS_SIZE  = 10000
 
     # @!attribute [r] base_url
     # @return [String] The protocol, domain, and port used for generating URIs.
@@ -69,6 +71,10 @@ module WaxIiif
     # @return [Number] The max width in pixels for a thumbnail image
     attr_reader :thumbnail_size
 
+    # @!attribute [r] max_canvas_size
+    # @return [Number] The max width and height in pixels for a canvas
+    attr_reader :max_canvas_size
+
     # @!attribute [r] collection_label
     # @return [String] the label for the collection
     attr_reader :collection_label
@@ -107,6 +113,7 @@ module WaxIiif
       @output_dir           = opts[:output_dir]           || DEFAULT_OUTPUT_DIRECTORY
       @variants             = opts[:variants]             || {}
       @thumbnail_size       = opts[:thumbnail_size]       || DEFAULT_THUMBNAIL_SIZE
+      @max_canvas_size      = opts[:max_canvas_size]      || DEFAULT_MAX_CANVAS_SIZE
       @verbose              = opts.fetch(:verbose, false) ## false
       @prefix               = opts[:prefix] || ''
       @prefix               = "/#{@prefix}" if @prefix.length.positive? && @prefix[0] != '/'

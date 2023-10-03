@@ -37,13 +37,13 @@ module WaxIiif
   #--------------------------------------------------------------------------
 
   # @return [String] The URI of the presentation context for the IIIF V.2
-  PRESENTATION_CONTEXT  = 'http://iiif.io/api/presentation/2/context.json'.freeze
+  PRESENTATION_CONTEXT      = 'http://iiif.io/api/presentation/2/context.json'.freeze
   # @return [String] The URI of the image context for the IIIF V.2
-  IMAGE_CONTEXT         = 'http://iiif.io/api/image/2/context.json'.freeze
+  IMAGE_CONTEXT             = 'http://iiif.io/api/image/2/context.json'.freeze
   # @return [String] The URI of the image protocol for IIIF
-  IMAGE_PROTOCOL        = 'http://iiif.io/api/image'.freeze
+  IMAGE_PROTOCOL            = 'http://iiif.io/api/image'.freeze
   # @return [String] The URI of the Level 0 profile for the IIIF V.2
-  LEVEL_0               = 'http://iiif.io/api/image/2/level0.json'.freeze
+  LEVEL_0                   = 'http://iiif.io/api/image/2/level0.json'.freeze
   # @return [String]  The IIIF default type for a sequence.
   SEQUENCE_TYPE             = 'sc:Sequence'.freeze
   # @return [String]  The IIIF default type for a canvas
@@ -62,6 +62,7 @@ module WaxIiif
   DEFAULT_VIEWING_DIRECTION = 'left-to-right'.freeze
   # @return [Number] The size in pixels below which the canvas will be doubled.
   MIN_CANVAS_SIZE           = 1200
+
 
   #--------------------------------------------------------------------------
   # HELPERS

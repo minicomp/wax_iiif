@@ -31,8 +31,11 @@ module WaxIiif
       raise WaxIiif::Error::InvalidImageData, 'Each image needs an path.' if data.image_path.nil? || data.image_path.to_s.empty?
 
       begin
+        GC.start
         source = Vips::Source.new_from_file data.image_path
         @image = Vips::Image.new_from_source source, "fail=true"
+
+        enforce_size_limit  
       rescue
         raise WaxIiif::Error::InvalidImageData, "Could not load #{data.image_path}. Is it a valid image file?"
       end
@@ -64,6 +67,13 @@ module WaxIiif
     # @return [Number] The width of the image in pixels
     def width
       @image.width
+    end
+
+    # Get the image scale factor
+    #
+    # @return [Number] The image scale factor as float
+    def scalef 
+      @scalef ||= (@image.width.to_f / @image.height.to_f)
     end
 
     # Get the image height
@@ -104,6 +114,17 @@ module WaxIiif
 
     def filestring
       "/#{region}/#{width},/0"
+    end
+
+    def enforce_size_limit
+      if @image.width > @config.max_canvas_size
+        height = (@config.max_canvas_size / scalef).to_i
+        @image = @image.thumbnail_image @config.max_canvas_size, height:
+      end
+      if @image.height > @config.max_canvas_size
+        width = (@config.max_canvas_size * scalef).to_i
+        @image = @image.thumbnail_image width, height: @config.max_canvas_size
+      end
     end
   end
 end
